@@ -74,6 +74,8 @@ public abstract class Cliente {
 
     public abstract String getTipo();
 
+    public abstract String calcularPrecoFinal(Produto produto);
+
     public String toString() {
         return "Tipo: " + getTipo() + "Nome: " + getNome() + " | Telefone: " + getTelefone() +
                 " | E-mail: " + getEmail() + " | Data Cadastro: " + getDataCadastro();

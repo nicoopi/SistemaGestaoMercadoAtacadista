@@ -2,54 +2,41 @@ package model;
 
 public class Produto {
     private String nomeProduto;
-    private double precoClienteFisico;
-    private double precoClienteJuridico;
+    private double precoBase;
     private int id;
 
-    public  Produto (String nomeProduto, double precoClienteFisico, double precoClienteJuridico, int id ){
+    public  Produto (String nomeProduto, double precoBase, int id ){
         setNomeProduto(nomeProduto);
-        setPrecoClienteFisico(precoClienteFisico);
-        setPrecoClienteJuridico(precoClienteJuridico);
+        setPrecoBase(precoBase);
         setId(id);
     }
+
     public String getNomeProduto(){
         return nomeProduto;
     }
-    public double getPrecoClienteFisico(){
-        return precoClienteFisico;
+    public double getPrecoBase() {
+        return precoBase;
     }
-
-    public double getPrecoClienteJuridico() {
-        return precoClienteJuridico;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setNomeProduto(String nomeProduto) throws IllegalArgumentException {
-            if(nomeProduto == null || nomeProduto.isBlank()) {
-                throw new IllegalArgumentException("ERRO: O nome do Produto não pode ser nulo ou vazio. Você o deixou vazio!");
-            }
-
-            this.nomeProduto = nomeProduto;
+        if(nomeProduto == null || nomeProduto.isBlank()) {
+            throw new IllegalArgumentException("ERRO: O nome do Produto não pode ser nulo ou vazio. Você o deixou vazio!");
         }
 
-    public void setPrecoClienteFisico(double precoClienteFisico) throws IllegalArgumentException {
-       if (precoClienteFisico <= 0) {
-           throw new IllegalArgumentException("ERRO: O preço do produto não pode ser vazio ou negativo! Coloque um preço válido");
-
-       }
-        this.precoClienteFisico = precoClienteFisico;
+        this.nomeProduto = nomeProduto;
     }
 
-    public void setPrecoClienteJuridico(double precoClienteJuridico) throws IllegalArgumentException{
-        if (precoClienteJuridico <= 0) {
+    public void setPrecoBase(double precoBase) throws IllegalArgumentException{
+        if (precoBase <= 0) {
             throw new IllegalArgumentException("ERRO: O preço do produto não pode ser vazio ou negativo! Coloque um preço válido");
         }
 
-        this.precoClienteJuridico = precoClienteJuridico;
+        this.precoBase = precoBase;
     }
+
     public void setId(int id) throws IllegalArgumentException {
        if (id <= 0) {
            throw new IllegalArgumentException("ERRO: O ID do produto não pode ser vazio ou negativo! Coloque um ID válido");
@@ -57,12 +44,9 @@ public class Produto {
 
         this.id = id;
     }
-    public String toString(){
-        return "Nome do Produto: " + getNomeProduto() +
-                "\n Preço para Cliente Físico: " +getPrecoClienteFisico()+
-                "\n Preço para Cliente Jurídico: " +getPrecoClienteJuridico()+
-                "\n ID do produto: " + getId();
-    }
 
+    public String toString(){
+        return "Nome do Produto: " + getNomeProduto() + " | Preço Base: " + getPrecoBase() + " | ID: " + getId();
+    }
 }
 
