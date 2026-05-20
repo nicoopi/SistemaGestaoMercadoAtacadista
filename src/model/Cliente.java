@@ -71,4 +71,11 @@ public abstract class Cliente {
 
         this.dataCadastro = dataCadastro;
     }
+
+    public abstract String getTipo();
+
+    public String toString() {
+        return "Nome: " + getNome() + " | Telefone: " + getTelefone() +
+                " | E-mail: " + getEmail() + " | Data Cadastro: " + getDataCadastro();
+    }
 }
