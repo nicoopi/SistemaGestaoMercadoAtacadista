@@ -75,7 +75,7 @@ public abstract class Cliente {
     public abstract String getTipo();
 
     public String toString() {
-        return "Nome: " + getNome() + " | Telefone: " + getTelefone() +
+        return "Tipo: " + getTipo() + "Nome: " + getNome() + " | Telefone: " + getTelefone() +
                 " | E-mail: " + getEmail() + " | Data Cadastro: " + getDataCadastro();
     }
 }
