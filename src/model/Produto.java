@@ -31,7 +31,7 @@ public class Produto {
 
     public void setPrecoBase(double precoBase) throws IllegalArgumentException{
         if (precoBase <= 0) {
-            throw new IllegalArgumentException("ERRO: O preço do produto não pode ser vazio ou negativo! Coloque um preço válido");
+            throw new IllegalArgumentException("ERRO: O preço base do produto deve ser maior que zero! Coloque um preço válido");
         }
 
         this.precoBase = precoBase;
@@ -39,7 +39,7 @@ public class Produto {
 
     public void setId(int id) throws IllegalArgumentException {
        if (id <= 0) {
-           throw new IllegalArgumentException("ERRO: O ID do produto não pode ser vazio ou negativo! Coloque um ID válido");
+           throw new IllegalArgumentException("ERRO: O ID do produto deve ser um número positivo maior que zero! Coloque um ID válido");
        }
 
         this.id = id;
