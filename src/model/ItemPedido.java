@@ -45,4 +45,9 @@ public class ItemPedido {
         return getQuantidadePedida() * getPrecoUnitario();
     }
 
+    @Override
+    public String toString() {
+        return "Produto: " + produto.getNomeProduto() + " | Quantidade Pedida: " + getQuantidadePedida() + " | Preço Unitário: R$ " + getPrecoUnitario() + " | Subtotal: R$ " + calcularSubTotal();
+    }
+
 }
