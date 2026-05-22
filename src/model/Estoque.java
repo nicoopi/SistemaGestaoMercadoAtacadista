@@ -44,18 +44,18 @@ public class Estoque {
     }
 
     public void setLote(String lote) throws IllegalArgumentException {
-        if(lote.isEmpty() || lote.isBlank()) {
-            throw new IllegalArgumentException("ERRO: O lote do estoque não pode ser NULO");
+        if(lote == null || lote.isBlank()) {
+            throw new IllegalArgumentException("ERRO: O lote do estoque não pode ser NULO ou VAZIO");
         }
         this.lote = lote;
     }
 
     public void setDataDeValidade(LocalDate dataDeValidade) throws IllegalArgumentException {
         if(dataDeValidade == null){
-            throw new IllegalArgumentException("ERRO: A data de válidade não pode ser VAZIA! Coloque uma data válida!");
+            throw new IllegalArgumentException("ERRO: A data de validade não pode ser VAZIA! Coloque uma data válida!");
         }
         if(dataDeValidade.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("ERRO: A data de válidade não pode ser antes de HOJE! Coloque uma válidade que seja comestivél");
+            throw new IllegalArgumentException("ERRO: A data de validade não pode ser antes de HOJE! Coloque uma validade que seja comestível");
         }
         this.dataDeValidade = dataDeValidade;
     }
