@@ -40,14 +40,14 @@ public class Estoque {
         if(quantidadeAtual < 0){
             throw new IllegalArgumentException("ERRO: Quantiade em estoque não pode ser menor que 0! Coloque uma quantidade válida");
         }
-            this.quantidadeAtual = quantidadeAtual;
+        this.quantidadeAtual = quantidadeAtual;
     }
 
     public void setLote(String lote) throws IllegalArgumentException {
         if(lote.isEmpty() || lote.isBlank()) {
             throw new IllegalArgumentException("ERRO: O lote do estoque não pode ser NULO");
         }
-            this.lote = lote;
+        this.lote = lote;
     }
 
     public void setDataDeValidade(LocalDate dataDeValidade) throws IllegalArgumentException {
@@ -57,7 +57,7 @@ public class Estoque {
         if(dataDeValidade.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("ERRO: A data de válidade não pode ser antes de HOJE! Coloque uma válidade que seja comestivél");
         }
-           this.dataDeValidade = dataDeValidade;
+        this.dataDeValidade = dataDeValidade;
     }
 
     @Override
