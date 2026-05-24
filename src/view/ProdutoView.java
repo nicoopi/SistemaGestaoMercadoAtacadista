@@ -43,12 +43,12 @@ public class ProdutoView {
             return sc.nextInt();
         }
 
-        public void exibirProduto(Produto produto) {
-            if (produto == null) {
+        public void exibirProduto(Produto p) {
+            if (p == null) {
                 System.out.println("PRODUTO VAZIO");
             } else {
                 System.out.println("-----INFORMAÇÕES DO PRODUTO-----");
-                System.out.println(produto.toString());
+                System.out.println(p);
 
             }
         }
