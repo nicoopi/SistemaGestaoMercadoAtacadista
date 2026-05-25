@@ -45,6 +45,7 @@ public class Produto {
         this.id = id;
     }
 
+    @Override
     public String toString(){
         return "Nome do Produto: " + getNomeProduto() + " | Preço Base: " + getPrecoBase() + " | ID: " + getId();
     }
