@@ -1,46 +1,100 @@
 package controller;
 
+import exceptions.CarrinhoVazioException;
+import exceptions.RegistroNaoEncontradoException;
 import model.Cliente;
 import model.Estoque;
 import model.ItemPedido;
 import model.Produto;
+import view.CarrinhoView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarrinhoController {
+    private CarrinhoView view;
     private List<ItemPedido> itensCarrinho;
-    private Cliente clienteAtual;
     private Estoque estoque;
+    private Cliente clienteAtual;
 
-    public CarrinhoController(Estoque estoque) throws IllegalArgumentException{
+    public CarrinhoController(CarrinhoView view, Estoque estoque, Cliente clienteAtual) throws IllegalArgumentException{
         if(estoque == null) {
             throw new IllegalArgumentException("ERRO: O estoque não pode ser nulo. O carrinho precisa de conexão com o estoque para funcionar!");
         }
 
+        if(clienteAtual == null) {
+            throw new IllegalArgumentException("ERRO: O cliente não pode ser nulo. Todo carrinho precisa ter um dono!");
+        }
         this.estoque = estoque;
-
+        this.view = view;
         this.itensCarrinho = new ArrayList<>();
-        this.clienteAtual = null;
+        this.clienteAtual = clienteAtual;
     }
 
-    public void adicionarProdutonoCarrinho(Produto produto, int quantidadeDesejada)  throws IllegalArgumentException{
-        if(produto == null) {
-            throw new IllegalArgumentException("ERRO: O produto selecionado é inválido.");
-        }
-        if (quantidadeDesejada <= 0) {
-            throw new IllegalArgumentException("ERRO: A quantidade deve ser maior que zero.");
-        }
+   public void adicionarProdutonoCarrinho() {
+        try {
+            view.exibirMensagem("---- Adicionando Produto ao Carrinho ----");
 
-        if(quantidadeDesejada <= estoque.getQuantidadeAtual()) {
-            ItemPedido novoItem = new ItemPedido(produto, quantidadeDesejada);
-            this.itensCarrinho.add(novoItem);
-        } else {
-            throw new IllegalArgumentException("ERRO: Estoque insuficiente! Não temos " + quantidadeDesejada + " unidades na prateleira.");
+            int idProduto = view.lerIDProduto();
+            int quantidade = view.lerQuantidadeDesejada();
+
+            if(quantidade <=0 ) {
+                throw new IllegalArgumentException("ERRO: A quantidade deve ser maior que zero.");
+            }
+
+            Produto produtoProvisorio = estoque.getProduto();
+
+            if(quantidade <= estoque.getQuantidadeAtual()) {
+                ItemPedido novoItem = new ItemPedido(produtoProvisorio, quantidade);
+                this.itensCarrinho.add(novoItem);
+                view.exibirMensagem("Sucesso! Produto adicionado ao carrinho.");
+            } else {
+                throw new IllegalArgumentException("ERRO: Estoque insuficiente! Não temos " + quantidade + " unidades na prateleira.");
+            }
+        } catch (IllegalArgumentException e) {
+            view.exibirMensagem(e.getMessage());
+        } catch (Exception e) {
+            view.exibirMensagem("ERRO INESPERADO: Ocorreu um problema ao adicionar o produto.");
         }
-    }
+   }
 
     public List<ItemPedido> getItensCarrinho() {
         return this.itensCarrinho;
+    }
+
+    public Cliente getClienteAtual() {
+        return this.clienteAtual;
+    }
+
+    public void removerProdutodoCarrinho() throws RegistroNaoEncontradoException {
+        int idRemovida = view.lerIDProduto();
+        ItemPedido itemParaRemover = null;
+        for (ItemPedido item : itensCarrinho) {
+            if (item.getProduto().getId() == idRemovida) {
+                itemParaRemover = item;
+                break;
+            }
+        }
+        if (itemParaRemover == null) {
+            throw new RegistroNaoEncontradoException("ERRO: O ID: " + idRemovida + " não foi encontrado no seu carrinho.");
+        }
+
+        itensCarrinho.remove(itemParaRemover);
+        view.exibirMensagem("Sucesso! Produto removido do carrinho.");
+    }
+
+    public double finalizarCompra() throws CarrinhoVazioException {
+        if(itensCarrinho.isEmpty()) {
+            throw new CarrinhoVazioException("ERRO: O carrinho está vazio. Adicione produtos antes de finalizar!");
+        }
+
+        double totalCompra = 0;
+        for(ItemPedido item : itensCarrinho) {
+            totalCompra += item.calcularSubTotal();
+        }
+
+        itensCarrinho.clear();
+
+        return totalCompra;
     }
 }
