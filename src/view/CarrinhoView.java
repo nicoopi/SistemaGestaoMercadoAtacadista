@@ -2,6 +2,7 @@ package view;
 
 import controller.CarrinhoController;
 import exceptions.CarrinhoVazioException;
+import exceptions.EstoqueInsuficienteException;
 import exceptions.RegistroNaoEncontradoException;
 import model.ItemPedido;
 
@@ -12,11 +13,6 @@ import java.util.Scanner;
 public class CarrinhoView {
     private Scanner sc = new Scanner(System.in);
     private CarrinhoController controller;
-
-    public int lerOpcaoCarrinho() {
-        System.out.println("Digite a opção desejada: ");
-        return sc.nextInt();
-    }
 
     public int lerIDProduto() {
         System.out.print("Digite o ID do Produto que deseja: ");
@@ -59,7 +55,7 @@ public class CarrinhoView {
 
                 switch (opcao) {
                     case 1:
-                        controller.adicionarProdutonoCarrinho();
+                        exibirCadastroDeProduto();
                         break;
                     case 2:
                         exibirCarrinho(controller.getItensCarrinho());
@@ -81,6 +77,18 @@ public class CarrinhoView {
                 limparBuffer();
             }
         } while (opcao != 0);
+    }
+
+    public void exibirCadastroDeProduto() {
+        try {
+            System.out.println("----- Adicionando Produto ao Carrinho -----");
+            controller.adicionarProdutonoCarrinho(lerIDProduto(), lerQuantidadeDesejada());
+            System.out.println("\nSucesso: Produto adicionado ao carrinho!");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        } catch (EstoqueInsuficienteException e) {
+            System.out.println("Aviso do Estoque: " + e.getMessage());
+        }
     }
 
     public void exibirCarrinho(List<ItemPedido> listaItens) {

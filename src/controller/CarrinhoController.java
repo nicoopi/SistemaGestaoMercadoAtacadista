@@ -1,6 +1,7 @@
 package controller;
 
 import exceptions.CarrinhoVazioException;
+import exceptions.EstoqueInsuficienteException;
 import exceptions.RegistroNaoEncontradoException;
 import model.Cliente;
 import model.Estoque;
@@ -31,32 +32,21 @@ public class CarrinhoController {
         this.clienteAtual = clienteAtual;
     }
 
-   public void adicionarProdutonoCarrinho() {
-        try {
-            view.exibirMensagem("---- Adicionando Produto ao Carrinho ----");
+   public void adicionarProdutonoCarrinho(int idProduto, int quantidade) throws IllegalArgumentException, EstoqueInsuficienteException {
+       if (quantidade <= 0) {
+           throw new IllegalArgumentException("ERRO: A quantidade deve ser maior que zero.");
+       }
 
-            int idProduto = view.lerIDProduto();
-            int quantidade = view.lerQuantidadeDesejada();
+       Produto produtoProvisorio = estoque.getProduto();
 
-            if(quantidade <=0 ) {
-                throw new IllegalArgumentException("ERRO: A quantidade deve ser maior que zero.");
-            }
+       if (quantidade > estoque.getQuantidadeAtual()) {
+           throw new EstoqueInsuficienteException("ERRO: Estoque insuficiente! Só temos " + estoque.getQuantidadeAtual() + " unidades disponíveis.");
+       }
 
-            Produto produtoProvisorio = estoque.getProduto();
-
-            if(quantidade <= estoque.getQuantidadeAtual()) {
-                ItemPedido novoItem = new ItemPedido(produtoProvisorio, quantidade);
-                this.itensCarrinho.add(novoItem);
-                view.exibirMensagem("Sucesso! Produto adicionado ao carrinho.");
-            } else {
-                throw new IllegalArgumentException("ERRO: Estoque insuficiente! Não temos " + quantidade + " unidades na prateleira.");
-            }
-        } catch (IllegalArgumentException e) {
-            view.exibirMensagem(e.getMessage());
-        } catch (Exception e) {
-            view.exibirMensagem("ERRO INESPERADO: Ocorreu um problema ao adicionar o produto.");
-        }
+       ItemPedido novoItem = new ItemPedido(produtoProvisorio, quantidade);
+       this.itensCarrinho.add(novoItem);
    }
+
 
     public List<ItemPedido> getItensCarrinho() {
         return this.itensCarrinho;
