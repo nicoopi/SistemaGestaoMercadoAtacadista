@@ -7,14 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class ProdutoController {
-    private LinkedHashMap<Integer, Produto> mapaProduto;
-    private Produto ultimoProdutoCadastrado;
-
-
-    public ProdutoController(ProdutoView view) {
-        this.mapaProduto = new LinkedHashMap<>();
-        this.ultimoProdutoCadastrado = null;
-    }
+    private LinkedHashMap<Integer, Produto> mapaProduto = new LinkedHashMap<>();
+    private Produto ultimoProdutoCadastrado = null;
 
     public void cadastrarProduto(String nomeProduto , double precoBase, int id) throws IllegalArgumentException{
             if(mapaProduto.containsKey(id)) {
