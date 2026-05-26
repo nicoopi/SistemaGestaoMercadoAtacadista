@@ -4,9 +4,11 @@ import controller.ProdutoController;
 import model.ClienteFisico;
 import model.Produto;
 
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Scanner;
 
 
@@ -30,13 +32,13 @@ public class ProdutoView {
 
                  switch (opcao) {
                      case 1:
-                         controller.cadastrarProduto();
+                        exibirCadastroProduto();
                          break;
                      case 2:
                          exibirListaProdutos(controller.listarProdutos());
                          break;
                      case 3:
-                         controller.exibirUltimoProdutoCadastrado();
+                         exibirProduto(controller.exibirUltimoProdutoCadastrado());
                          break;
                      case 0:
                          System.out.println("Saindo do Menu cadastro de PRODUTO...");
@@ -60,6 +62,18 @@ public class ProdutoView {
      public void fecharScanner() {
          sc.close();
      }
+    public void exibirCadastroProduto() {
+        try {
+            System.out.println("----- Cadastro de Cliente Físico -----");
+            controller.cadastrarProduto(lerNomeProduto(), lerPrecoProduto(), lerIDProduto());
+            System.out.println("\nSucesso: Cliente físico cadastrado!");
+        }  catch (InputMismatchException e) {
+            System.out.println("ERRO: Formato de preço ou ID inválido! Digite apenas números no preço e no ID.");
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
      public String lerNomeProduto(){
          System.out.print("Digite um nome válido para o produto: ");
@@ -83,7 +97,7 @@ public class ProdutoView {
          }
      }
 
-     public void exibirListaProdutos(LinkedHashMap<Integer, Produto> mapa) {
+     public void exibirListaProdutos(HashMap<Integer, Produto> mapa) {
          if (mapa.isEmpty()) {
              System.out.println("Nenhum produto cadastrado no momento.");
          } else {
