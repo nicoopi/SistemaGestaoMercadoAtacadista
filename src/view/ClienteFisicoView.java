@@ -4,6 +4,7 @@ import controller.ClienteFisicoController;
 import exceptions.RegistroNaoEncontradoException;
 import model.ClienteFisico;
 
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
@@ -60,7 +61,7 @@ public class ClienteFisicoView {
 
                 switch (option) {
                     case 1:
-                        controller.cadastrarClienteFisico();
+                        exibirCadastroClienteFisico();
                         break;
                     case 2:
                         exibirListaClientesFisicos(controller.listarClientesFisicos());
@@ -82,6 +83,18 @@ public class ClienteFisicoView {
                 limparBuffer();
             }
         } while (option != 0);
+    }
+
+    public void exibirCadastroClienteFisico() {
+        try {
+            System.out.println("----- Cadastro de Cliente Físico -----");
+            controller.cadastrarClienteFisico(lerNome(), lerTelefone(), lerEmail(), lerDataCadastro(), lerCpf());
+            System.out.println("\nSucesso: Cliente físico cadastrado!");
+        } catch (DateTimeParseException e){
+            System.out.println("ERRO: Formato de data inválido. Certifique-se de usar barras (DD/MM/AAAA).");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void exibirBuscaPorCpf() {
