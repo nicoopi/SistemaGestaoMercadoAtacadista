@@ -1,13 +1,11 @@
 package view;
 
 import controller.ProdutoController;
-import model.ClienteFisico;
+
 import model.Produto;
 
-import java.time.format.DateTimeParseException;
+
 import java.util.InputMismatchException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
 
