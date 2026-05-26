@@ -30,6 +30,11 @@ public class ClienteFisicoController {
             LocalDate dataCadastro = LocalDate.parse(dataCadastroTexto, formatador);
             String cpf = view.lerCpf();
 
+            if(mapaClientes.containsKey(cpf)) {
+                view.exibirMensagem("ERRO: CPF já cadastrado! Digite um CPF válido!");
+                return;
+            }
+
             ClienteFisico novoClienteFisico = new ClienteFisico(nome, telefone, email, dataCadastro, cpf);
             mapaClientes.put(cpf, novoClienteFisico);
             view.exibirMensagem("Sucesso! Cliente físico cadastrado.");
