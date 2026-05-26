@@ -3,8 +3,6 @@ package view;
 import controller.ProdutoController;
 
 import model.Produto;
-
-
 import java.util.InputMismatchException;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -62,9 +60,9 @@ public class ProdutoView {
      }
     public void exibirCadastroProduto() {
         try {
-            System.out.println("----- Cadastro de Cliente Físico -----");
+            System.out.println("----- Cadastro de Produto -----");
             controller.cadastrarProduto(lerNomeProduto(), lerPrecoProduto(), lerIDProduto());
-            System.out.println("\nSucesso: Cliente físico cadastrado!");
+            System.out.println("\nSucesso: Produto cadastrado!");
         }  catch (InputMismatchException e) {
             System.out.println("ERRO: Formato de preço ou ID inválido! Digite apenas números no preço e no ID.");
         }
