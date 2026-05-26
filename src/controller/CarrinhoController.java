@@ -7,18 +7,16 @@ import model.Cliente;
 import model.Estoque;
 import model.ItemPedido;
 import model.Produto;
-import view.CarrinhoView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarrinhoController {
-    private CarrinhoView view;
     private List<ItemPedido> itensCarrinho;
     private Estoque estoque;
     private Cliente clienteAtual;
 
-    public CarrinhoController(CarrinhoView view, Estoque estoque, Cliente clienteAtual) throws IllegalArgumentException{
+    public CarrinhoController(Estoque estoque, Cliente clienteAtual) throws IllegalArgumentException{
         if(estoque == null) {
             throw new IllegalArgumentException("ERRO: O estoque não pode ser nulo. O carrinho precisa de conexão com o estoque para funcionar!");
         }
@@ -27,7 +25,6 @@ public class CarrinhoController {
             throw new IllegalArgumentException("ERRO: O cliente não pode ser nulo. Todo carrinho precisa ter um dono!");
         }
         this.estoque = estoque;
-        this.view = view;
         this.itensCarrinho = new ArrayList<>();
         this.clienteAtual = clienteAtual;
     }
@@ -56,9 +53,9 @@ public class CarrinhoController {
         return this.clienteAtual;
     }
 
-    public void removerProdutodoCarrinho() throws RegistroNaoEncontradoException {
-        int idRemovida = view.lerIDProduto();
+    public void removerProdutodoCarrinho(int idRemovida) throws RegistroNaoEncontradoException {
         ItemPedido itemParaRemover = null;
+
         for (ItemPedido item : itensCarrinho) {
             if (item.getProduto().getId() == idRemovida) {
                 itemParaRemover = item;
@@ -70,7 +67,6 @@ public class CarrinhoController {
         }
 
         itensCarrinho.remove(itemParaRemover);
-        view.exibirMensagem("Sucesso! Produto removido do carrinho.");
     }
 
     public double finalizarCompra() throws CarrinhoVazioException {

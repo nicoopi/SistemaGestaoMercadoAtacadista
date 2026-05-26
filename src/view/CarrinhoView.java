@@ -83,7 +83,7 @@ public class CarrinhoView {
         try {
             System.out.println("----- Adicionando Produto ao Carrinho -----");
             controller.adicionarProdutonoCarrinho(lerIDProduto(), lerQuantidadeDesejada());
-            System.out.println("\nSucesso: Produto adicionado ao carrinho!");
+            System.out.println("\nSucesso! Produto adicionado ao carrinho!");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         } catch (EstoqueInsuficienteException e) {
@@ -93,9 +93,9 @@ public class CarrinhoView {
 
     public void exibirCarrinho(List<ItemPedido> listaItens) {
         if( listaItens == null || listaItens.isEmpty()) {
-            System.out.println("--- O CARRINHO ESTÁ VAZIO ---");
+            System.out.println("----- O CARRINHO ESTÁ VAZIO -----");
         } else {
-            System.out.println("---- ITENS NO CARRINHO ----");
+            System.out.println("----- ITENS NO CARRINHO -----");
             for(ItemPedido item : listaItens) {
                 System.out.println(item);
             }
@@ -104,8 +104,9 @@ public class CarrinhoView {
 
     public void exibirRemocaoProduto() {
         try {
-            System.out.println("---- Remoção de Produto ----");
-            controller.removerProdutodoCarrinho();
+            System.out.println("----- Remoção de Produto -----");
+            controller.removerProdutodoCarrinho(lerIDProduto());
+            System.out.println("\nSucesso! Produto removido do carrinho!");
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
         }
@@ -113,7 +114,7 @@ public class CarrinhoView {
 
     public void exibirFinalizacaoCompra() {
         try {
-            System.out.println("---- Finalização da Compra ----");
+            System.out.println("----- Finalização da Compra -----");
 
             String nomeCliente = controller.getClienteAtual().getNome();
             System.out.printf("Sucesso! Compra finalizada do Cliente: %s. Valor Total: R$%.2f\n" , nomeCliente, controller.finalizarCompra());
