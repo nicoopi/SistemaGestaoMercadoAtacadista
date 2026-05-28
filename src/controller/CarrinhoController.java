@@ -7,6 +7,7 @@ import model.Cliente;
 import model.Estoque;
 import model.ItemPedido;
 import model.Produto;
+import util.ArquivoUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class CarrinhoController {
     private List<ItemPedido> itensCarrinho;
     private Estoque estoque;
     private Cliente clienteAtual;
+    private final ArquivoUtil arquivoUtil = new ArquivoUtil();
 
     public CarrinhoController(Estoque estoque, Cliente clienteAtual) throws IllegalArgumentException{
         if(estoque == null) {
@@ -27,6 +29,14 @@ public class CarrinhoController {
         this.estoque = estoque;
         this.itensCarrinho = new ArrayList<>();
         this.clienteAtual = clienteAtual;
+
+        Object dadosRecebidos = arquivoUtil.lerDados("carrinho.dat");
+
+        if(dadosRecebidos != null) {
+            this.itensCarrinho = (List<ItemPedido>) dadosRecebidos;
+        } else {
+            this.itensCarrinho = new ArrayList<>();
+        }
     }
 
    public void adicionarProdutonoCarrinho(int idProduto, int quantidade) throws IllegalArgumentException, EstoqueInsuficienteException {
@@ -42,6 +52,8 @@ public class CarrinhoController {
 
        ItemPedido novoItem = new ItemPedido(produtoProvisorio, quantidade);
        this.itensCarrinho.add(novoItem);
+
+       arquivoUtil.salvarDados(this.itensCarrinho, "carrinho.dat");
    }
 
 
@@ -67,6 +79,8 @@ public class CarrinhoController {
         }
 
         itensCarrinho.remove(itemParaRemover);
+
+        arquivoUtil.salvarDados(this.itensCarrinho, "carrinho.dat");
     }
 
     public double finalizarCompra() throws CarrinhoVazioException {
@@ -81,6 +95,10 @@ public class CarrinhoController {
 
         itensCarrinho.clear();
 
+        arquivoUtil.salvarDados(this.itensCarrinho, "carrinho.dat");
+
         return totalCompra;
+
+
     }
 }
