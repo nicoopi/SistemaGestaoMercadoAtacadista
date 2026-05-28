@@ -4,8 +4,13 @@ import controller.EstoqueController;
 import model.Estoque;
 import exceptions.RegistroNaoEncontradoException;
 import controller.ProdutoController;
+import view.ProdutoView;
+import model.Produto;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
 import java.util.InputMismatchException;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -13,6 +18,7 @@ import java.util.Scanner;
 public class EstoqueView {
     private Scanner sc = new Scanner(System.in);
     private EstoqueController controller;
+    private ProdutoView view;
 
     public void mostrarMenuEstoque() {
         int opcao = -1;
@@ -34,6 +40,7 @@ public class EstoqueView {
                     case 1:
                         break;
                     case 2:
+                        exibirProdutoNoEstoque();
                         break;
                     case 3:
                         break;
@@ -58,9 +65,15 @@ public class EstoqueView {
     public void limparBuffer(){
         sc.nextLine();
     }
-    public String lerDataDeValidade(){
-        System.out.println("Digite a data de validade (formato DD/MM/AAAA): \"");
-        return sc.nextLine();
+
+    public LocalDate lerDataDeValidade() {
+        System.out.print("Digite a data de validade (formato DD/MM/AAAA): ");
+        String dataTexto = sc.nextLine();
+
+        // O formatador garante que o Java entenda o nosso formato brasileiro
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        return LocalDate.parse(dataTexto, formatador);
     }
     public int lerQuantidadeAtual(){
         System.out.println("Digite a quantidade que deseja cadastrar: ");
@@ -75,6 +88,22 @@ public class EstoqueView {
         return sc.nextInt();
     }
     public void exibirProdutoNoEstoque(){
-
+        lerId();
+        view.exibirBuscaPorId();
+    }
+    public void exibirCadastroProdutoEmEstoque() {
+        try {
+            System.out.println("----- Cadastro de Produto -----");
+            controller.cadastrarProdutoEstoque(view.lerIDProduto(), lerQuantidadeAtual(), lerLote(), lerDataDeValidade());
+            System.out.println("\nSucesso: Produto cadastrado!");
+        }
+        catch (InputMismatchException e) {
+            System.out.println("ERRO: Formato de preço ou ID inválido! Digite apenas números no preço e no ID.");
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        } catch (RegistroNaoEncontradoException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,7 +1,7 @@
 package controller;
 
+import exceptions.RegistroNaoEncontradoException;
 import model.Produto;
-import view.ProdutoView;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -27,6 +27,15 @@ public class ProdutoController {
         } else {
             return ultimoProdutoCadastrado;
         }
+    }
+    public Produto buscarProdutoPorId(int id) throws RegistroNaoEncontradoException {
+        Produto produtoEncontrado = mapaProduto.get(id);
+
+        if(produtoEncontrado == null){
+            throw new  RegistroNaoEncontradoException("ERRO: Nenhum produto em estoque encontrado pelo ID digitado! Tente novamente!");
+        }
+
+        return produtoEncontrado;
     }
 
     public HashMap<Integer,Produto> listarProdutos(){

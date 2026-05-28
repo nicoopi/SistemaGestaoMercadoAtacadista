@@ -1,6 +1,7 @@
 package view;
 
 import controller.ProdutoController;
+import exceptions.RegistroNaoEncontradoException;
 
 import model.Produto;
 import java.util.InputMismatchException;
@@ -11,6 +12,7 @@ import java.util.Scanner;
 public class ProdutoView {
      private Scanner sc = new Scanner(System.in);
      private ProdutoController controller;
+     private ProdutoView view;
 
      public void mostrarMenuProduto() {
          int opcao = -1;
@@ -101,6 +103,22 @@ public class ProdutoView {
              for (Produto produto : mapa.values()) {
                  System.out.println(produto);
              }
+         }
+     }
+     public void exibirBuscaPorId(){
+         try {
+             System.out.println("----- Busca de Produto -----");
+             Produto produto = controller.buscarProdutoPorId(lerIDProduto());
+             System.out.println("\nSucesso: Produto encontrado!");
+             System.out.println(produto);
+
+         } catch (InputMismatchException e) {
+             System.out.println("ERRO: O ID deve conter apenas números!");
+             limparBuffer();
+
+         }catch (IllegalArgumentException | RegistroNaoEncontradoException e) {
+             System.out.println(e.getMessage());
+
          }
      }
 
