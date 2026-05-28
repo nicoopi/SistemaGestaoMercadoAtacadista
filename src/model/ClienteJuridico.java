@@ -1,10 +1,10 @@
 package model;
 
 import interfaces.Descontavel;
-
 import java.time.LocalDate;
+import java.io.Serializable;
 
-public class ClienteJuridico extends Cliente implements Descontavel {
+public class ClienteJuridico extends Cliente implements Descontavel, Serializable {
     private String cnpj;
 
     public ClienteJuridico (String nome, String telefone, String email, LocalDate dataCadastro, String cnpj) {

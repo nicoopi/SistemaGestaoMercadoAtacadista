@@ -2,8 +2,9 @@ package model;
 
 import interfaces.Descontavel;
 import java.time.LocalDate;
+import java.io.Serializable;
 
-public class ClienteFisico extends Cliente implements Descontavel {
+public class ClienteFisico extends Cliente implements Descontavel, Serializable {
     private String cpf;
 
     public ClienteFisico(String nome, String telefone, String email, LocalDate dataCadastro, String cpf) {

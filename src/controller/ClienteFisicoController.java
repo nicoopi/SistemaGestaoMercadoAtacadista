@@ -2,6 +2,7 @@ package controller;
 
 import exceptions.RegistroNaoEncontradoException;
 import model.ClienteFisico;
+import util.ArquivoUtil;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClienteFisicoController {
-    private Map<String, ClienteFisico> mapaClientesFisicos = new HashMap<>();
+    private Map<String, ClienteFisico> mapaClientesFisicos;
+    private final ArquivoUtil arquivoUtil = new ArquivoUtil();
+
+    public ClienteFisicoController() {
+        Object dadosRecebidos = arquivoUtil.lerDados("clientes_fisicos.dat");
+
+        if (dadosRecebidos != null) {
+            this.mapaClientesFisicos = (Map<String, ClienteFisico>) dadosRecebidos;
+        } else {
+            this.mapaClientesFisicos = new HashMap<>();
+        }
+    }
 
     public void cadastrarClienteFisico(String nome, String telefone, String email, String dataCadastroTexto, String cpf) throws DateTimeParseException, IllegalArgumentException {
         if(mapaClientesFisicos.containsKey(cpf)) {
@@ -22,6 +34,8 @@ public class ClienteFisicoController {
 
         ClienteFisico novoClienteFisico = new ClienteFisico(nome, telefone, email, dataCadastro, cpf);
         mapaClientesFisicos.put(cpf, novoClienteFisico);
+
+        arquivoUtil.salvarDados(this.mapaClientesFisicos, "clientes_fisicos.dat");
     }
 
     public ClienteFisico buscarPorCpf(String cpf) throws RegistroNaoEncontradoException {
@@ -44,5 +58,7 @@ public class ClienteFisicoController {
         if(clienteRemovido == null) {
             throw new RegistroNaoEncontradoException("ERRO: Não foi possível remover. Nenhum cliente físico encontrado com o CPF informado!");
         }
+
+        arquivoUtil.salvarDados(this.mapaClientesFisicos, "clientes_fisicos.dat");
     }
 }

@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public abstract class Cliente {
+public abstract class Cliente implements Serializable {
     private String nome;
     private String telefone;
     private String email;
