@@ -62,4 +62,22 @@ public class ClienteJuridicoController {
 
         arquivoUtil.salvarDados(mapaClientesJuridicos, "clientes_juridicos.dat");
     }
+
+    public void alterarClientePorCnpj(String cnpj, String novoNome, String novoTelefone, String novoEmail, String novaDataTexto) throws RegistroNaoEncontradoException, DateTimeParseException {
+        ClienteJuridico clienteEncontrado = mapaClientesJuridicos.get(cnpj);
+
+        if (clienteEncontrado == null) {
+            throw new RegistroNaoEncontradoException("ERRO: Nenhum cliente jurídico encontrado com o CNPJ informado.");
+        }
+
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate novaData = LocalDate.parse(novaDataTexto, formatador);
+
+        clienteEncontrado.setNome(novoNome);
+        clienteEncontrado.setEmail(novoEmail);
+        clienteEncontrado.setTelefone(novoTelefone);
+        clienteEncontrado.setDataCadastro(novaData);
+
+        arquivoUtil.salvarDados(this.mapaClientesJuridicos, "clientes_juridicos.dat");
+    }
 }

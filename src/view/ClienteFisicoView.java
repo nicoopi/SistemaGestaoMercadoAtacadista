@@ -33,6 +33,27 @@ public class ClienteFisicoView {
         System.out.print("Digite o CPF: ");
         return sc.nextLine();
     }
+    public String lerNovoNome() {
+        System.out.print("Digite o novo nome: ");
+        return sc.nextLine();
+    }
+    public String lerNovoTelefone() {
+        System.out.print("Digite o novo telefone: ");
+        return sc.nextLine();
+    }
+    public String lerNovoEmail() {
+        System.out.print("Digite o novo email: ");
+        return sc.nextLine();
+    }
+    public String lerNovaDataCadastro() {
+        System.out.print("Digite a data de cadastro da atualização (formato DD/MM/AAAA): ");
+        return sc.nextLine();
+    }
+    public String lerCpfCadastroAlteracao() {
+        System.out.print("Digite o CPF do cadastro que deseja alterar: ");
+        return sc.nextLine();
+    }
+
     public void exibirMensagem(String mensagem) {
         System.out.println(mensagem);
     }
@@ -53,6 +74,7 @@ public class ClienteFisicoView {
                 System.out.println("2 - Listar clientes físicos");
                 System.out.println("3 - Buscar cliente por cpf");
                 System.out.println("4 - Remover cliente físico");
+                System.out.println("5 - Alterar cliente físico");
                 System.out.println("0 - Sair do menu de clientes físicos");
                 System.out.print("Digite a opção que deseja: ");
                 option = sc.nextInt();
@@ -71,6 +93,9 @@ public class ClienteFisicoView {
                         break;
                     case 4:
                         exibirRemocaoPorCpf();
+                        break;
+                    case 5:
+                        exibirAlteracaoPorCpf();
                         break;
                     case 0:
                         System.out.println("Saindo do menu de clientes físicos...");
@@ -125,6 +150,18 @@ public class ClienteFisicoView {
             controller.removerPorCpf(lerCpf());
             System.out.println("Sucesso: Cliente removido!");
         } catch (RegistroNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void exibirAlteracaoPorCpf() {
+        try {
+            System.out.println("----- Alteração de cliente -----");
+            controller.alterarClientePorCpf(lerCpfCadastroAlteracao(), lerNovoNome(), lerNovoTelefone(), lerNovoEmail(), lerNovaDataCadastro());
+            System.out.println("Sucesso: Cliente alterado!");
+        } catch (DateTimeParseException e){
+            System.out.println("ERRO: Formato de data inválido. Certifique-se de usar barras (DD/MM/AAAA).");
+        } catch (RegistroNaoEncontradoException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }

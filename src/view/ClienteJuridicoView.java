@@ -33,6 +33,27 @@ public class ClienteJuridicoView {
         System.out.print("Digite o CNPJ: ");
         return sc.nextLine();
     }
+    public String lerNovoNome() {
+        System.out.print("Digite o novo nome: ");
+        return sc.nextLine();
+    }
+    public String lerNovoTelefone() {
+        System.out.print("Digite o novo telefone: ");
+        return sc.nextLine();
+    }
+    public String lerNovoEmail() {
+        System.out.print("Digite o novo email: ");
+        return sc.nextLine();
+    }
+    public String lerNovaDataCadastro() {
+        System.out.print("Digite a data de cadastro da atualização (formato DD/MM/AAAA): ");
+        return sc.nextLine();
+    }
+    public String lerCnpjCadastroAlteracao() {
+        System.out.print("Digite o CNPJ do cadastro que deseja alterar: ");
+        return sc.nextLine();
+    }
+
     public void exibirMensagem(String mensagem) {
         System.out.println(mensagem);
     }
@@ -53,6 +74,7 @@ public class ClienteJuridicoView {
                 System.out.println("2 - Listar clientes jurídico");
                 System.out.println("3 - Buscar cliente por cnpj");
                 System.out.println("4 - Remover cliente jurídico");
+                System.out.println("5 - Alterar cliente jurídico");
                 System.out.println("0 - Sair do menu de clientes jurídicos");
                 System.out.print("Digite a opção que deseja: ");
                 option = sc.nextInt();
@@ -70,10 +92,13 @@ public class ClienteJuridicoView {
                         exibirBuscaPorCnpj();
                         break;
                     case 4:
-                        exibirRemocaoPorCpf();
+                        exibirRemocaoPorCnpj();
+                        break;
+                    case 5:
+                        exibirAlteracaoPorCnpj();
                         break;
                     case 0:
-                        System.out.println("Saindo do menu de clientes físicos...");
+                        System.out.println("Saindo do menu de clientes jurídicos...");
                         break;
                     default:
                         System.out.println("Opção inválida, tente novamente!");
@@ -119,12 +144,24 @@ public class ClienteJuridicoView {
         }
     }
 
-    public void exibirRemocaoPorCpf() {
+    public void exibirRemocaoPorCnpj() {
         try {
             System.out.println("----- Remoção de cliente -----");
             controller.removerPorCnpj(lerCnpj());
             System.out.println("Sucesso: Cliente removido!");
         } catch (RegistroNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void exibirAlteracaoPorCnpj() {
+        try {
+            System.out.println("----- Alteração de cliente -----");
+            controller.alterarClientePorCnpj(lerCnpjCadastroAlteracao(), lerNovoNome(), lerNovoTelefone(), lerNovoEmail(), lerNovaDataCadastro());
+            System.out.println("Sucesso: Cliente alterado!");
+        } catch (DateTimeParseException e){
+            System.out.println("ERRO: Formato de data inválido. Certifique-se de usar barras (DD/MM/AAAA).");
+        } catch (RegistroNaoEncontradoException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }

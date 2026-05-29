@@ -61,4 +61,22 @@ public class ClienteFisicoController {
 
         arquivoUtil.salvarDados(this.mapaClientesFisicos, "clientes_fisicos.dat");
     }
+
+    public void alterarClientePorCpf(String cpf, String novoNome, String novoTelefone, String novoEmail, String novaDataTexto) throws RegistroNaoEncontradoException, DateTimeParseException {
+        ClienteFisico clienteEncontrado = mapaClientesFisicos.get(cpf);
+
+        if (clienteEncontrado == null) {
+            throw new RegistroNaoEncontradoException("ERRO: Nenhum cliente físico encontrado com o CPF informado.");
+        }
+
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate novaData = LocalDate.parse(novaDataTexto, formatador);
+
+        clienteEncontrado.setNome(novoNome);
+        clienteEncontrado.setEmail(novoEmail);
+        clienteEncontrado.setTelefone(novoTelefone);
+        clienteEncontrado.setDataCadastro(novaData);
+
+        arquivoUtil.salvarDados(this.mapaClientesFisicos, "clientes_fisicos.dat");
+    }
 }
