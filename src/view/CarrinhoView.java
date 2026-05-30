@@ -84,7 +84,7 @@ public class CarrinhoView {
             System.out.println("----- Adicionando Produto ao Carrinho -----");
             controller.adicionarProdutonoCarrinho(lerIDProduto(), lerQuantidadeDesejada());
             System.out.println("\nSucesso! Produto adicionado ao carrinho!");
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
         } catch (EstoqueInsuficienteException e) {
             System.out.println("Aviso do Estoque: " + e.getMessage());
@@ -105,9 +105,22 @@ public class CarrinhoView {
     public void exibirRemocaoProduto() {
         try {
             System.out.println("----- Remoção de Produto -----");
-            controller.removerProdutodoCarrinho(lerIDProduto());
-            System.out.println("\nSucesso! Produto removido do carrinho!");
-        } catch (RegistroNaoEncontradoException e) {
+            int id = lerIDProduto();
+
+            System.out.print("Digite a quantidade que deseja remover deste item: ");
+            int qtd = sc.nextInt();
+            limparBuffer();
+
+            int resultado = controller.removerProdutodoCarrinho(id, qtd);
+
+            if(resultado == -1) {
+                System.out.println("\nAviso: Você digitou um valor maior do que possuía. O item foi removido totalmente do carrinho!");
+            } else if (resultado == 0) {
+                System.out.println("\nSucesso! O item foi removido totalmente do carrinho!");
+            } else {
+                System.out.println("\nSucesso! Quantidade atualizada. Restam " + resultado + " unidades deste item no carrinho.");
+            }
+        } catch (RegistroNaoEncontradoException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }
