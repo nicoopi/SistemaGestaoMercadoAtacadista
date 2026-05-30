@@ -22,6 +22,8 @@ public class ProdutoView {
                  System.out.println("1 - CADASTRAR PRODUTO ");
                  System.out.println("2 - EXIBIR PRODUTOS CADASTRADOS");
                  System.out.println("3 - EXIBIR ÚLTIMO PRODUTO CADASTRADO");
+                 System.out.println("4 - EXIBIR PRODUTO POR ID");
+                 System.out.println("5 - EXIBIR PRODUTO POR ID");
                  System.out.println("0 - SAIR");
                  System.out.print("Digite a opção que deseja: ");
                  opcao = sc.nextInt();
@@ -37,6 +39,9 @@ public class ProdutoView {
                          break;
                      case 3:
                          exibirProduto(controller.exibirUltimoProdutoCadastrado());
+                         break;
+                     case 4:
+                         exibirBuscaPorId();
                          break;
                      case 0:
                          System.out.println("Saindo do Menu cadastro de PRODUTO...");
