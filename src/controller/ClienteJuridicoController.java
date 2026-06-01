@@ -1,9 +1,9 @@
 package controller;
 
 import exceptions.RegistroNaoEncontradoException;
-import model.ClienteFisico;
 import model.ClienteJuridico;
 import util.ArquivoUtil;
+import util.LoggerService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +37,7 @@ public class ClienteJuridicoController {
         mapaClientesJuridicos.put(cnpj, novoClienteJuridico);
 
         arquivoUtil.salvarDados(mapaClientesJuridicos, "clientes_juridicos.dat");
+        LoggerService.log("INFO", "Cliente jurídico cadastrado - CNPJ: " + novoClienteJuridico.getCnpj());
     }
 
     public ClienteJuridico buscarPorCnpj(String cnpj) throws RegistroNaoEncontradoException {
@@ -46,10 +47,12 @@ public class ClienteJuridicoController {
             throw new RegistroNaoEncontradoException("ERRO: Nenhum cliente jurídico encontrado com o CNPJ informado.");
         }
 
+        LoggerService.log("INFO", "Cliente jurídico encontrado - CNPJ: " + clienteEncontrado.getCnpj());
         return clienteEncontrado;
     }
 
     public Map<String, ClienteJuridico> listarClientesJuridicos() {
+        LoggerService.log("INFO", "Listagem de clientes jurídicos executada.");
         return mapaClientesJuridicos;
     }
 
@@ -61,14 +64,11 @@ public class ClienteJuridicoController {
         }
 
         arquivoUtil.salvarDados(mapaClientesJuridicos, "clientes_juridicos.dat");
+        LoggerService.log("INFO", "Cliente jurídico removido - CNPJ: " + clienteRemovido.getCnpj());
     }
 
     public void alterarClientePorCnpj(String cnpj, String novoNome, String novoTelefone, String novoEmail, String novaDataTexto) throws RegistroNaoEncontradoException, DateTimeParseException {
-        ClienteJuridico clienteEncontrado = mapaClientesJuridicos.get(cnpj);
-
-        if (clienteEncontrado == null) {
-            throw new RegistroNaoEncontradoException("ERRO: Nenhum cliente jurídico encontrado com o CNPJ informado.");
-        }
+        ClienteJuridico clienteEncontrado = buscarPorCnpj(cnpj);
 
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate novaData = LocalDate.parse(novaDataTexto, formatador);
@@ -79,5 +79,6 @@ public class ClienteJuridicoController {
         clienteEncontrado.setDataCadastro(novaData);
 
         arquivoUtil.salvarDados(this.mapaClientesJuridicos, "clientes_juridicos.dat");
+        LoggerService.log("INFO", "Cliente jurídico alterado - CNPJ: " + clienteEncontrado.getCnpj());
     }
 }

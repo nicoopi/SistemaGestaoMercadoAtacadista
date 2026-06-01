@@ -3,6 +3,7 @@ package view;
 import controller.ClienteFisicoController;
 import exceptions.RegistroNaoEncontradoException;
 import model.ClienteFisico;
+import util.LoggerService;
 
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
@@ -105,6 +106,7 @@ public class ClienteFisicoView {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("ERRO: Digite somente números!");
+                LoggerService.log("ERROR", "Usuário digitou um caractere inválido no menu.");
                 limparBuffer();
             }
         } while (option != 0);
@@ -117,8 +119,10 @@ public class ClienteFisicoView {
             System.out.println("\nSucesso: Cliente físico cadastrado!");
         } catch (DateTimeParseException e){
             System.out.println("ERRO: Formato de data inválido. Certifique-se de usar barras (DD/MM/AAAA).");
+            LoggerService.log("ERROR", e.getMessage());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
 
@@ -130,6 +134,7 @@ public class ClienteFisicoView {
             System.out.println(cliente);
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
 
@@ -151,6 +156,7 @@ public class ClienteFisicoView {
             System.out.println("Sucesso: Cliente removido!");
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
 
@@ -161,8 +167,10 @@ public class ClienteFisicoView {
             System.out.println("Sucesso: Cliente alterado!");
         } catch (DateTimeParseException e){
             System.out.println("ERRO: Formato de data inválido. Certifique-se de usar barras (DD/MM/AAAA).");
+            LoggerService.log("ERROR", e.getMessage());
         } catch (RegistroNaoEncontradoException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
 

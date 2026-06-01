@@ -3,6 +3,7 @@ package controller;
 import exceptions.RegistroNaoEncontradoException;
 import model.ClienteFisico;
 import util.ArquivoUtil;
+import util.LoggerService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -36,6 +37,7 @@ public class ClienteFisicoController {
         mapaClientesFisicos.put(cpf, novoClienteFisico);
 
         arquivoUtil.salvarDados(this.mapaClientesFisicos, "clientes_fisicos.dat");
+        LoggerService.log("INFO", "Cliente físico cadastrado - CPF: " + novoClienteFisico.getCpf());
     }
 
     public ClienteFisico buscarPorCpf(String cpf) throws RegistroNaoEncontradoException {
@@ -45,10 +47,12 @@ public class ClienteFisicoController {
             throw new RegistroNaoEncontradoException("ERRO: Nenhum cliente físico encontrado com o CPF informado.");
         }
 
+        LoggerService.log("INFO", "Cliente físico encontrado - CPF: " + clienteEncontrado.getCpf());
         return clienteEncontrado;
     }
 
     public Map<String, ClienteFisico> listarClientesFisicos() {
+        LoggerService.log("INFO", "Listagem de clientes físicos executada.");
         return mapaClientesFisicos;
     }
 
@@ -60,14 +64,11 @@ public class ClienteFisicoController {
         }
 
         arquivoUtil.salvarDados(this.mapaClientesFisicos, "clientes_fisicos.dat");
+        LoggerService.log("INFO", "Cliente físico removido - CPF: " + clienteRemovido.getCpf());
     }
 
     public void alterarClientePorCpf(String cpf, String novoNome, String novoTelefone, String novoEmail, String novaDataTexto) throws RegistroNaoEncontradoException, DateTimeParseException {
-        ClienteFisico clienteEncontrado = mapaClientesFisicos.get(cpf);
-
-        if (clienteEncontrado == null) {
-            throw new RegistroNaoEncontradoException("ERRO: Nenhum cliente físico encontrado com o CPF informado.");
-        }
+        ClienteFisico clienteEncontrado = buscarPorCpf(cpf);
 
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate novaData = LocalDate.parse(novaDataTexto, formatador);
@@ -78,5 +79,6 @@ public class ClienteFisicoController {
         clienteEncontrado.setDataCadastro(novaData);
 
         arquivoUtil.salvarDados(this.mapaClientesFisicos, "clientes_fisicos.dat");
+        LoggerService.log("INFO", "Cliente físico alterado - CPF: " + clienteEncontrado.getCpf());
     }
 }
