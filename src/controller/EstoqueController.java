@@ -4,6 +4,8 @@ import exceptions.EstoqueInsuficienteException;
 import exceptions.RegistroNaoEncontradoException;
 import model.Estoque;
 import model.Produto;
+import view.EstoqueView;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,6 +14,10 @@ import java.util.List;
 public class EstoqueController {
     private LinkedHashMap<Integer, Estoque> mapaEstoque = new LinkedHashMap<>();
     private ProdutoController produtoController;
+
+    public EstoqueController(EstoqueView view, ProdutoController produtoController) {
+        this.produtoController = produtoController;
+    }
 
     public void cadastrarProdutoEstoque(int id, int quantidadeAtual, String lote, LocalDate dataDeValidade) throws RegistroNaoEncontradoException {
         Produto produtoEncontradoEmEstoque = produtoController.buscarProdutoPorId(id);
@@ -79,10 +85,10 @@ public class EstoqueController {
         if (quantidadeRemovida > estoqueEncontrado.getQuantidadeAtual()) {
             throw new IllegalArgumentException("ERRO: Estoque insuficiente para o produto ID " + id);
         }
-            int novaQuantidade = estoqueEncontrado.getQuantidadeAtual() - quantidadeRemovida;
-            estoqueEncontrado.setQuantidadeAtual(novaQuantidade);
-            return novaQuantidade;
-        }
+                int novaQuantidade = estoqueEncontrado.getQuantidadeAtual() - quantidadeRemovida;
+                estoqueEncontrado.setQuantidadeAtual(novaQuantidade);
+                return novaQuantidade;
+            }
 
     }
 

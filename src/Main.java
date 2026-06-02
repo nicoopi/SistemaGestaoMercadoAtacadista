@@ -1,12 +1,6 @@
-import controller.ClienteFisicoController;
-import controller.ClienteJuridicoController;
-import controller.FornecedorController;
-import controller.ProdutoController;
+import controller.*;
 import model.Produto;
-import view.ClienteFisicoView;
-import view.ClienteJuridicoView;
-import view.FornecedorView;
-import view.ProdutoView;
+import view.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,6 +25,5 @@ public class Main {
 //        FornecedorController fornecedorController = new FornecedorController();
 //        fornecedorView.setController(fornecedorController);
 //        fornecedorView.exibirMenuFornecedor();
-
     }
 }
