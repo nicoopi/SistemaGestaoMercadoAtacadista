@@ -3,6 +3,7 @@ package view;
 import controller.FornecedorController;
 import exceptions.RegistroNaoEncontradoException;
 import model.Fornecedor;
+import util.LoggerService;
 
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -39,6 +40,60 @@ public class FornecedorView {
         sc.nextLine();
     }
 
+    public void exibirMenuFornecedor() {
+        int option = -1;
+
+        do {
+            try {
+                System.out.println("\n===== MENU DE FORNECEDORES =====");
+                System.out.println("1 - Cadastrar fornecedor");
+                System.out.println("2 - Listar fornecedores");
+                System.out.println("3 - Buscar fornecedor por CNPJ");
+                System.out.println("4 - Remover fornecedor");
+                System.out.println("0 - Sair do menu de fornecedores");
+                System.out.print("Digite a opção que deseja: ");
+                option = sc.nextInt();
+                limparBuffer();
+                System.out.println("===================================\n");
+
+                switch (option) {
+                    case 1:
+                        exibirCadastroFornecedor();
+                        break;
+                    case 2:
+                        exibirListaFornecedores(controller.listarFornecedores());
+                        break;
+                    case 3:
+                        exibirFornedorPorCnpj();
+                        break;
+                    case 4:
+                        exibirFornecedorRemovido();
+                        break;
+                    case 0:
+                        System.out.println("Saindo do menu de fornecedores...");
+                        break;
+                    default:
+                        System.out.println("Opção inválida, tente novamente!");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERRO: Digite somente números!");
+                LoggerService.log("ERROR", "Usuário digitou um caractere inválido no menu.");
+                limparBuffer();
+            }
+        } while (option != 0);
+    }
+
+    public void exibirCadastroFornecedor() {
+        try {
+            System.out.println("----- Cadastro de Fornecedor -----");
+            controller.cadastrarFornecedor(lerRazaoSocial(), lerCnpj(), lerTelefone());
+            System.out.println("\nSucesso: Fornecedor cadastrado!");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
+        }
+    }
+
     public void exibirFornedorPorCnpj() {
         try {
             System.out.println("----- Busca de Fornecedor -----");
@@ -47,6 +102,7 @@ public class FornecedorView {
             System.out.println(fornecedor);
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
 
@@ -68,49 +124,8 @@ public class FornecedorView {
             System.out.println("Sucesso: Fornecedor removido!");
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
-    }
-
-    public void exibirMenuFornecedor() {
-        int option = -1;
-
-        do {
-            try {
-                System.out.println("\n===== MENU DE FORNECEDORES =====");
-                System.out.println("1 - Cadastrar fornecedor");
-                System.out.println("2 - Listar fornecedores");
-                System.out.println("3 - Buscar fornecedor por CNPJ");
-                System.out.println("4 - Remover fornecedor");
-                System.out.println("0 - Sair do menu de fornecedores");
-                System.out.print("Digite a opção que deseja: ");
-                option = sc.nextInt();
-                limparBuffer();
-                System.out.println("===================================\n");
-
-                switch (option) {
-                    case 1:
-                        controller.cadastrarFornecedor();
-                        break;
-                    case 2:
-                        exibirListaFornecedores(controller.listarFornecedores());
-                        break;
-                    case 3:
-                        exibirFornedorPorCnpj();
-                        break;
-                    case 4:
-                        exibirFornecedorRemovido();
-                        break;
-                    case 0:
-                        System.out.println("Saindo do menu de fornecedores...");
-                        break;
-                    default:
-                        System.out.println("Opção inválida, tente novamente!");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("ERRO: Digite somente números!");
-                limparBuffer();
-            }
-        } while (option != 0);
     }
 
     public void setController(FornecedorController controller) {

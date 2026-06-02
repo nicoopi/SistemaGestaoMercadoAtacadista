@@ -27,10 +27,10 @@ public class Main {
         //view.setController(controller);
         //view.mostrarMenuProduto();
 
-        //FornecedorView fornecedorView = new FornecedorView();
-        //FornecedorController fornecedorController = new FornecedorController(fornecedorView);
-        //fornecedorView.setController(fornecedorController);
-        //fornecedorView.exibirMenuFornecedor();
+//        FornecedorView fornecedorView = new FornecedorView();
+//        FornecedorController fornecedorController = new FornecedorController();
+//        fornecedorView.setController(fornecedorController);
+//        fornecedorView.exibirMenuFornecedor();
 
     }
 }

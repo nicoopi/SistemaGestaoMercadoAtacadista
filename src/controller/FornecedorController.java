@@ -2,40 +2,40 @@ package controller;
 
 import exceptions.RegistroNaoEncontradoException;
 import model.Fornecedor;
-import view.FornecedorView;
+import util.ArquivoUtil;
+import util.LoggerService;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class FornecedorController {
-    private FornecedorView view;
     private Map<String, Fornecedor> mapFornecedor;
+    private final ArquivoUtil arquivoUtil = new ArquivoUtil();
 
-    public FornecedorController(FornecedorView view) {
-        this.view = view;
-        this.mapFornecedor = new HashMap<>();
-    }
+    public FornecedorController() {
+        Object dadosRecebidos = arquivoUtil.lerDados("fornecedores.dat");
 
-    public void cadastrarFornecedor() {
-        try {
-            view.exibirMensagem("----- Cadastro do Fornecedor -----");
-            String razaoSocial = view.lerRazaoSocial();
-            String cnpj = view.lerCnpj();
-            String telefone = view.lerTelefone();
-
-            if (mapFornecedor.containsKey(cnpj.toUpperCase())) {
-                throw new IllegalArgumentException("ERRO: Já existe um fornecedor cadastrado com esse CNPJ!");
-            }
-
-            Fornecedor novoFornecedor = new Fornecedor(razaoSocial, cnpj, telefone);
-            mapFornecedor.put(novoFornecedor.getCnpj(), novoFornecedor);
-            view.exibirMensagem("Sucesso! Fornecedor cadastrado");
-        } catch (IllegalArgumentException e) {
-            view.exibirMensagem(e.getMessage());
+        if (dadosRecebidos != null) {
+            this.mapFornecedor = (Map<String, Fornecedor>) dadosRecebidos;
+        } else {
+            this.mapFornecedor = new HashMap<>();
         }
     }
 
+    public void cadastrarFornecedor(String razaoSocial, String cnpj, String telefone) throws IllegalArgumentException {
+        if (mapFornecedor.containsKey(cnpj.toUpperCase())) {
+            throw new IllegalArgumentException("ERRO: Já existe um fornecedor cadastrado com esse CNPJ!");
+        }
+
+        Fornecedor novoFornecedor = new Fornecedor(razaoSocial, cnpj, telefone);
+        mapFornecedor.put(novoFornecedor.getCnpj(), novoFornecedor);
+
+        arquivoUtil.salvarDados(this.mapFornecedor, "fornecedores.dat");
+        LoggerService.log("INFO", "Fornecedor cadastrado - CNPJ: " + novoFornecedor.getCnpj());
+    }
+
     public Map<String, Fornecedor> listarFornecedores() {
+        LoggerService.log("INFO", "Listagem de fornecedores executada.");
         return mapFornecedor;
     }
 
@@ -45,6 +45,9 @@ public class FornecedorController {
         if (fornecedor == null) {
             throw new RegistroNaoEncontradoException("ERRO: Nenhum fornecedor encontrado com esse CNPJ");
         }
+
+        arquivoUtil.salvarDados(this.mapFornecedor, "fornecedores.dat");
+        LoggerService.log("INFO", "Fornecedor removido - CNPJ: " + fornecedor.getCnpj());
     }
 
     public Fornecedor buscarFornecedorPorCnpj(String cnpj) throws RegistroNaoEncontradoException {
@@ -54,6 +57,7 @@ public class FornecedorController {
             throw new RegistroNaoEncontradoException("ERRO: Nenhum fornecedor encontrado com esse CNPJ");
         }
 
+        LoggerService.log("INFO", "Fornecedor encontrado - CNPJ: " + fornecedor.getCnpj());
         return fornecedor;
     }
 }

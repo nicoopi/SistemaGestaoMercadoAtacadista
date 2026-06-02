@@ -1,6 +1,8 @@
 package model;
 
-public class Fornecedor {
+import java.io.Serializable;
+
+public class Fornecedor implements Serializable {
     private String razaoSocial;
     private String cnpj;
     private String telefone;
