@@ -8,6 +8,7 @@ import model.Estoque;
 import model.ItemPedido;
 import model.Produto;
 import util.ArquivoUtil;
+import util.LoggerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +55,12 @@ public class CarrinhoController {
        this.itensCarrinho.add(novoItem);
 
        arquivoUtil.salvarDados(this.itensCarrinho, "carrinho.dat");
+       LoggerService.log("INFO", "Produto ID: " + idProduto + " adicionado ao carrinho do Cliente: " + getClienteAtual().getNome());
    }
 
 
-    public List<ItemPedido> getItensCarrinho() {
+    public List<ItemPedido> listarItensCarrinho() {
+        LoggerService.log("INFO", "Listagem dos itens do carrinho executada.");
         return this.itensCarrinho;
     }
 
@@ -99,6 +102,7 @@ public class CarrinhoController {
         }
 
         arquivoUtil.salvarDados(this.itensCarrinho, "carrinho.dat");
+        LoggerService.log("INFO", "Produto ID: " + idRemovida + " teve sua quantidade removida/alterada do carrinho.");
 
         return statusRetorno;
     }
@@ -117,6 +121,7 @@ public class CarrinhoController {
         }
         itensCarrinho.clear();
         arquivoUtil.salvarDados(this.itensCarrinho, "carrinho.dat");
+        LoggerService.log("INFO", "Compra finalizada com sucesso. Cliente: " + getClienteAtual().getNome() + " | Valor Total: R$" + totalCompra);
         return totalCompra;
 
 

@@ -5,6 +5,7 @@ import exceptions.CarrinhoVazioException;
 import exceptions.EstoqueInsuficienteException;
 import exceptions.RegistroNaoEncontradoException;
 import model.ItemPedido;
+import util.LoggerService;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -58,7 +59,7 @@ public class CarrinhoView {
                         exibirCadastroDeProduto();
                         break;
                     case 2:
-                        exibirCarrinho(controller.getItensCarrinho());
+                        exibirCarrinho(controller.listarItensCarrinho());
                         break;
                     case 3:
                         exibirRemocaoProduto();
@@ -74,6 +75,7 @@ public class CarrinhoView {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("ERRO: Digite somente números!");
+                LoggerService.log("ERROR", "Usuário digitou um caractere inválido no menu.");
                 limparBuffer();
             }
         } while (opcao != 0);
@@ -85,9 +87,10 @@ public class CarrinhoView {
             controller.adicionarProdutonoCarrinho(lerIDProduto(), lerQuantidadeDesejada());
             System.out.println("\nSucesso! Produto adicionado ao carrinho!");
         } catch (IllegalArgumentException | RegistroNaoEncontradoException e) {
-            System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         } catch (EstoqueInsuficienteException e) {
             System.out.println("Aviso do Estoque: " + e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
 
@@ -122,6 +125,7 @@ public class CarrinhoView {
             }
         } catch (RegistroNaoEncontradoException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
 
@@ -133,6 +137,7 @@ public class CarrinhoView {
             System.out.printf("Sucesso! Compra finalizada do Cliente: %s. Valor Total: R$%.2f\n" , nomeCliente, controller.finalizarCompra());
         } catch (CarrinhoVazioException | RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
 
