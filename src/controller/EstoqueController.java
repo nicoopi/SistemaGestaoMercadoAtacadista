@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class EstoqueController {
-    private LinkedHashMap<String, Estoque> mapaEstoque = new LinkedHashMap<>();
+    private LinkedHashMap<Integer, Estoque> mapaEstoque = new LinkedHashMap<>();
     private ProdutoController produtoController;
 
     public EstoqueController(ProdutoController produtoController) {
@@ -30,7 +30,7 @@ public class EstoqueController {
         }
         Estoque novoEstoque = new Estoque(produtoEncontradoEmEstoque, quantidadeAtual, lote, dataDeValidade);
 
-        mapaEstoque.put(lote, novoEstoque);
+        mapaEstoque.put(id, novoEstoque);
     }
 
     public Estoque buscarEstoquePorId(int id) throws RegistroNaoEncontradoException {
@@ -79,8 +79,8 @@ public class EstoqueController {
         return valorTotal;
     }
 
-    public int adicionarQuantidadeEmEstoque(String lote, int quantidadeAdicional) throws RegistroNaoEncontradoException {
-        Estoque estoqueEncontrado = mapaEstoque.get(lote);
+    public int adicionarQuantidadeEmEstoque(int id, int quantidadeAdicional) throws RegistroNaoEncontradoException {
+        Estoque estoqueEncontrado = mapaEstoque.get(id);
 
         if (estoqueEncontrado == null) {
             throw new RegistroNaoEncontradoException("ERRO: Produto não encontrado em estoque! VOLTE PARA CADASTRAR O PRODUTO");
@@ -90,14 +90,14 @@ public class EstoqueController {
         return novaQuantidade;
     }
 
-    public int removerQuantidadeDeEstoque(String lote, int quantidadeRemovida) throws RegistroNaoEncontradoException {
-        Estoque estoqueEncontrado = mapaEstoque.get(lote);
+    public int removerQuantidadeDeEstoque(int id, int quantidadeRemovida) throws RegistroNaoEncontradoException {
+        Estoque estoqueEncontrado = mapaEstoque.get(id);
 
         if (estoqueEncontrado == null) {
             throw new RegistroNaoEncontradoException("ERRO: Produto não encontrado em estoque");
         }
         if (quantidadeRemovida > estoqueEncontrado.getQuantidadeAtual()) {
-            throw new IllegalArgumentException("ERRO: Estoque insuficiente para o produto");
+            throw new IllegalArgumentException("ERRO: Estoque insuficiente para o produto ID " + id);
         }
                 int novaQuantidade = estoqueEncontrado.getQuantidadeAtual() - quantidadeRemovida;
                 estoqueEncontrado.setQuantidadeAtual(novaQuantidade);
