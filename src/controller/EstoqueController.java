@@ -15,7 +15,7 @@ public class EstoqueController {
     private LinkedHashMap<Integer, Estoque> mapaEstoque = new LinkedHashMap<>();
     private ProdutoController produtoController;
 
-    public EstoqueController(EstoqueView view, ProdutoController produtoController) {
+    public EstoqueController(ProdutoController produtoController) {
         this.produtoController = produtoController;
     }
 
