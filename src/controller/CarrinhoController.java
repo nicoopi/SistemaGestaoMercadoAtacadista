@@ -104,7 +104,7 @@ public class CarrinhoController {
     }
 
 
-    public double finalizarCompra() throws CarrinhoVazioException {
+    public double finalizarCompra() throws CarrinhoVazioException, RegistroNaoEncontradoException {
         if(itensCarrinho.isEmpty()) {
             throw new CarrinhoVazioException("ERRO: O carrinho está vazio. Adicione produtos antes de finalizar!");
         }
@@ -113,14 +113,10 @@ public class CarrinhoController {
         for(ItemPedido item : itensCarrinho) {
             totalCompra += item.calcularSubTotal();
 
-            // TODO: Cobrar o Luiz para criar o método baixarEstoque() no EstoqueController!
-            // TODO: Fazer a logica de baixarEstoque na linha abaixo:
+            estoqueController.removerQuantidadeDeEstoque(item.getProduto().getId(), item.getQuantidadePedida());
         }
-
         itensCarrinho.clear();
-
         arquivoUtil.salvarDados(this.itensCarrinho, "carrinho.dat");
-
         return totalCompra;
 
 

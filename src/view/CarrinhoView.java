@@ -131,7 +131,7 @@ public class CarrinhoView {
 
             String nomeCliente = controller.getClienteAtual().getNome();
             System.out.printf("Sucesso! Compra finalizada do Cliente: %s. Valor Total: R$%.2f\n" , nomeCliente, controller.finalizarCompra());
-        } catch (CarrinhoVazioException e) {
+        } catch (CarrinhoVazioException | RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
         }
     }
