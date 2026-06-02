@@ -152,4 +152,7 @@ public class EstoqueView {
             throw new RuntimeException(e);
         }
     }
+    public void exibirProdutoAdicionado(){
+
+    }
 }
