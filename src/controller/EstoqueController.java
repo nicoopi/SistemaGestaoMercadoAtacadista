@@ -12,35 +12,49 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class EstoqueController {
-    private LinkedHashMap<Integer, Estoque> mapaEstoque = new LinkedHashMap<>();
+    private LinkedHashMap<String, Estoque> mapaEstoque = new LinkedHashMap<>();
     private ProdutoController produtoController;
 
     public EstoqueController(ProdutoController produtoController) {
         this.produtoController = produtoController;
     }
 
+    public EstoqueController() {
+
+    }
+
     public void cadastrarProdutoEstoque(int id, int quantidadeAtual, String lote, LocalDate dataDeValidade) throws RegistroNaoEncontradoException {
         Produto produtoEncontradoEmEstoque = produtoController.buscarProdutoPorId(id);
-
+        if (produtoEncontradoEmEstoque == null) {
+            throw new RegistroNaoEncontradoException("ERRO: Produto não encontrado");
+        }
         Estoque novoEstoque = new Estoque(produtoEncontradoEmEstoque, quantidadeAtual, lote, dataDeValidade);
 
-        mapaEstoque.put(id, novoEstoque);
+        mapaEstoque.put(lote, novoEstoque);
     }
 
     public Estoque buscarEstoquePorId(int id) throws RegistroNaoEncontradoException {
-        Estoque estoque = mapaEstoque.get(id);
-        if (estoque == null) {
-            throw new RegistroNaoEncontradoException("ERRO: ID não encontrado.");
+        for (Estoque estoque : mapaEstoque.values()) {
+            if (estoque.getProduto().getId() == id) {
+                return estoque;
+            }
         }
-        return estoque;
+        throw new RegistroNaoEncontradoException("ERRO: Nenhum estoque encontrado para o ID " + id);
     }
 
     public void removerProdutoPorLote(int iDParaRemover) throws RegistroNaoEncontradoException {
-        Estoque produtoParaRemover = mapaEstoque.get(iDParaRemover);
-        if (produtoParaRemover == null) {
-            throw new RegistroNaoEncontradoException("ERRO: ID não encontrado.");
+        List<String> chavesParaRemover = new ArrayList<>();
+        for (Estoque estoque : mapaEstoque.values()) {
+            if (estoque.getProduto().getId() == iDParaRemover) {
+                chavesParaRemover.add(estoque.getLote());
+            }
         }
-        mapaEstoque.remove(iDParaRemover);
+        if (chavesParaRemover.isEmpty()) {
+            throw new RegistroNaoEncontradoException("ERRO: Nenhum estoque encontrado para o ID " + iDParaRemover);
+        }
+        for (String chave : chavesParaRemover) {
+            mapaEstoque.remove(chave);
+        }
     }
 
     public Estoque localizarProdutoPorLote(String lote) throws RegistroNaoEncontradoException {
@@ -65,8 +79,8 @@ public class EstoqueController {
         return valorTotal;
     }
 
-    public int adicionarQuantidadeEmEstoque(int id, int quantidadeAdicional) throws RegistroNaoEncontradoException {
-        Estoque estoqueEncontrado = mapaEstoque.get(id);
+    public int adicionarQuantidadeEmEstoque(String lote, int quantidadeAdicional) throws RegistroNaoEncontradoException {
+        Estoque estoqueEncontrado = mapaEstoque.get(lote);
 
         if (estoqueEncontrado == null) {
             throw new RegistroNaoEncontradoException("ERRO: Produto não encontrado em estoque! VOLTE PARA CADASTRAR O PRODUTO");
@@ -76,14 +90,14 @@ public class EstoqueController {
         return novaQuantidade;
     }
 
-    public int removerQuantidadeDeEstoque(int id, int quantidadeRemovida) throws RegistroNaoEncontradoException {
-        Estoque estoqueEncontrado = mapaEstoque.get(id);
+    public int removerQuantidadeDeEstoque(String lote, int quantidadeRemovida) throws RegistroNaoEncontradoException {
+        Estoque estoqueEncontrado = mapaEstoque.get(lote);
 
         if (estoqueEncontrado == null) {
             throw new RegistroNaoEncontradoException("ERRO: Produto não encontrado em estoque");
         }
         if (quantidadeRemovida > estoqueEncontrado.getQuantidadeAtual()) {
-            throw new IllegalArgumentException("ERRO: Estoque insuficiente para o produto ID " + id);
+            throw new IllegalArgumentException("ERRO: Estoque insuficiente para o produto");
         }
                 int novaQuantidade = estoqueEncontrado.getQuantidadeAtual() - quantidadeRemovida;
                 estoqueEncontrado.setQuantidadeAtual(novaQuantidade);

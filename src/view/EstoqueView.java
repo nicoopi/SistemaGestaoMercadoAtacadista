@@ -22,6 +22,11 @@ public class EstoqueView {
     private ProdutoView produtoview;
     private ProdutoController produtoController;
 
+    public EstoqueView(EstoqueController controller) {
+        this.controller = controller;
+        this.produtoview = new ProdutoView();
+    }
+
     public void mostrarMenuEstoque() {
         int opcao = -1;
         do {
