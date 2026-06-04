@@ -27,6 +27,9 @@ public class Pedido implements Serializable {
         setDataPedido(dataPedido);
     }
 
+    public int getIdPedido() {
+        return idPedido;
+    }
     public List<ItemPedido> getListaItens() {
         return listaItens;
     }
@@ -51,6 +54,14 @@ public class Pedido implements Serializable {
         }
 
         this.dataPedido = dataPedido;
+    }
+
+    public void setIdPedido(int idPedido) throws IllegalArgumentException{
+        if(idPedido <= 0) {
+            throw new IllegalArgumentException("ERRO: O ID do pedido não pode ser zero ou negativo.");
+        }
+
+        this.idPedido = idPedido;
     }
 
     public void adicionarItem(ItemPedido item) throws IllegalArgumentException{
@@ -94,9 +105,7 @@ public class Pedido implements Serializable {
         for (ItemPedido item : listaItens) {
             cupom += item.toString() + "\n";
         }
-
         cupom += "----------------------------------------\n";
-
         cupom += String.format("Total Bruto:   R$ %.2f\n", calcularTotalBruto());
         cupom += String.format("Desconto:      R$ %.2f\n", obterValorDesconto());
         cupom += String.format("Total Líquido: R$ %.2f\n", calcularTotalLiquido());

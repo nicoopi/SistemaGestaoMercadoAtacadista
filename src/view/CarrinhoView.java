@@ -1,9 +1,11 @@
 package view;
 
 import controller.CarrinhoController;
+import controller.PedidoController;
 import exceptions.CarrinhoVazioException;
 import exceptions.EstoqueInsuficienteException;
 import exceptions.RegistroNaoEncontradoException;
+import model.Cliente;
 import model.ItemPedido;
 import util.LoggerService;
 
@@ -14,6 +16,7 @@ import java.util.Scanner;
 public class CarrinhoView {
     private Scanner sc = new Scanner(System.in);
     private CarrinhoController controller;
+    PedidoController pedidoController;
 
     public int lerIDProduto() {
         System.out.print("Digite o ID do Produto que deseja: ");
@@ -133,9 +136,15 @@ public class CarrinhoView {
         try {
             System.out.println("----- Finalização da Compra -----");
 
-            String nomeCliente = controller.getClienteAtual().getNome();
-            System.out.printf("Sucesso! Compra finalizada do Cliente: %s. Valor Total: R$%.2f\n" , nomeCliente, controller.finalizarCompra());
-        } catch (CarrinhoVazioException | RegistroNaoEncontradoException e) {
+            Cliente clienteDaVez = controller.getClienteAtual();
+            List<ItemPedido> itensComprados = controller.listarItensCarrinho();
+
+            pedidoController.cadastrarPedido(clienteDaVez, itensComprados);
+
+            double valorTotal = controller.finalizarCompra();
+            System.out.printf("Sucesso! Compra finalizada do Cliente: %s. Valor Total: R$%.2f\n" , clienteDaVez.getNome(), valorTotal);
+
+        } catch (CarrinhoVazioException | RegistroNaoEncontradoException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
             LoggerService.log("ERROR", e.getMessage());
         }
@@ -144,6 +153,10 @@ public class CarrinhoView {
 
     public void setController(CarrinhoController controller) {
         this.controller = controller;
+    }
+
+    public void setPedidoController(PedidoController pedidoController) {
+        this.pedidoController = pedidoController;
     }
 
 }
