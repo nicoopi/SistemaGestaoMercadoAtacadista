@@ -11,16 +11,21 @@ public class Pedido implements Serializable {
     private Cliente cliente;
     private List<ItemPedido> listaItens;
     private LocalDate dataPedido;
+    private int idPedido;
 
-    public Pedido(Cliente cliente, LocalDate dataPedido) throws IllegalArgumentException{
+    public Pedido(Cliente cliente, LocalDate dataPedido, int idPedido) throws IllegalArgumentException{
+        if(idPedido <= 0) {
+            throw new IllegalArgumentException("ERRO: O ID do pedido deve ser maior que zero!");
+        }
         if(cliente == null) {
             throw new IllegalArgumentException("ERRO: O cliente não pode ser nulo! Insira um cliente válido.");
         }
+
+        this.idPedido = idPedido;
         this.cliente = cliente;
         this.listaItens = new ArrayList<>();
         setDataPedido(dataPedido);
     }
-
 
     public List<ItemPedido> getListaItens() {
         return listaItens;
@@ -81,11 +86,21 @@ public class Pedido implements Serializable {
 
     @Override
     public String toString() {
-        String cupom = "Cliente: " + cliente.getNome() + " | Data da Compra: " + getDataPedido() + "\n";
-        for(ItemPedido i : listaItens) {
-            cupom += i.toString() + "\n";
+        String cupom = "========================================\n";
+        cupom += "PEDIDO Nº: " + this.idPedido + " | Data: " + getDataPedido() + "\n";
+        cupom += "Cliente: " + cliente.getNome() + "\n";
+        cupom += "----------------------------------------\n";
+
+        for (ItemPedido item : listaItens) {
+            cupom += item.toString() + "\n";
         }
-        cupom += "\nTotal Bruto: R$" + calcularTotalBruto() + " | Desconto: R$" + obterValorDesconto() + " | Total Líquido: R$" + calcularTotalLiquido();
+
+        cupom += "----------------------------------------\n";
+
+        cupom += String.format("Total Bruto:   R$ %.2f\n", calcularTotalBruto());
+        cupom += String.format("Desconto:      R$ %.2f\n", obterValorDesconto());
+        cupom += String.format("Total Líquido: R$ %.2f\n", calcularTotalLiquido());
+        cupom += "========================================";
 
         return cupom;
     }
