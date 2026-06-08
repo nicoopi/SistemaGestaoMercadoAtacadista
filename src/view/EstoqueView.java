@@ -19,13 +19,6 @@ import java.util.Scanner;
 public class EstoqueView {
     private Scanner sc = new Scanner(System.in);
     private EstoqueController controller;
-    private ProdutoView produtoview;
-    private ProdutoController produtoController;
-
-    public EstoqueView(EstoqueController controller) {
-        this.controller = controller;
-        this.produtoview = new ProdutoView();
-    }
 
     public void mostrarMenuEstoque() {
         int opcao = -1;
@@ -162,4 +155,9 @@ public class EstoqueView {
             throw new RuntimeException(e);
         }
     }
+
+    public void setController(EstoqueController controller) {
+        this.controller = controller;
+    }
+
 }

@@ -4,8 +4,6 @@ import exceptions.EstoqueInsuficienteException;
 import exceptions.RegistroNaoEncontradoException;
 import model.Estoque;
 import model.Produto;
-import view.EstoqueView;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,12 +13,7 @@ public class EstoqueController {
     private LinkedHashMap<Integer, Estoque> mapaEstoque = new LinkedHashMap<>();
     private ProdutoController produtoController;
 
-    public EstoqueController(ProdutoController produtoController) {
-        this.produtoController = produtoController;
-    }
-
     public EstoqueController() {
-
     }
 
     public void cadastrarProdutoEstoque(int id, int quantidadeAtual, String lote, LocalDate dataDeValidade) throws RegistroNaoEncontradoException {
@@ -104,7 +97,10 @@ public class EstoqueController {
                 return novaQuantidade;
             }
 
+    public void setProdutoController(ProdutoController produtoController) {
+        this.produtoController = produtoController;
     }
+}
 
 
 
