@@ -38,6 +38,7 @@ public class EstoqueView {
                 System.out.println("4 - RELÁTORIO DE VALOR TOTAL EM ESTOQUE: ");
                 System.out.println("5 - REMOVER LOTE VENCIDO: ");
                 System.out.println("0 - SAIR ");
+                System.out.print("DIGITE UMA OPÇÃO VÁLIDA");
                 opcao = sc.nextInt();
                 limparBuffer();
                 System.out.println("===========================\n");
@@ -84,18 +85,22 @@ public class EstoqueView {
     }
 
     public int lerQuantidadeAtual() {
-        System.out.println("Digite a quantidade que deseja cadastrar: ");
-        return sc.nextInt();
+        System.out.print("Digite a quantidade que deseja cadastrar: ");
+        int quantidade = sc.nextInt();
+        limparBuffer();
+        return quantidade;
     }
 
     public String lerLote() {
-        System.out.println("Digite o lote do produto: ");
+        System.out.print("Digite o lote do produto: ");
         return sc.nextLine();
     }
 
     public int lerId() {
-        System.out.println("Digite o ID do produto que deseja exibir: ");
-        return sc.nextInt();
+        System.out.print("Digite o ID do produto que deseja exibir: ");
+        int id = sc.nextInt();
+        limparBuffer();
+        return id;
     }
 
     public void exibirProdutoNoEstoque() {
@@ -113,7 +118,7 @@ public class EstoqueView {
     public void exibirCadastroProdutoEmEstoque() {
         try {
             System.out.println("----- Cadastro de Produto -----");
-            controller.cadastrarProdutoEstoque(produtoview.lerIDProduto(), lerQuantidadeAtual(), lerLote(), lerDataDeValidade());
+            controller.cadastrarProdutoEstoque(lerId(), lerQuantidadeAtual(), lerLote(), lerDataDeValidade());
             System.out.println("\nSucesso: Produto cadastrado!");
         } catch (InputMismatchException e) {
             System.out.println("ERRO: Formato de preço ou ID inválido! Digite apenas números no preço e no ID.");
@@ -142,9 +147,9 @@ public class EstoqueView {
         try {
             System.out.println("------ Produtos encontrados ------");
             String lote = lerLote();
-            limparBuffer();
 
             controller.localizarProdutoPorLote(lote);
+            System.out.println();
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
         }
