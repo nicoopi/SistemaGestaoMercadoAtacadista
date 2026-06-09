@@ -3,7 +3,6 @@ package controller;
 import exceptions.EstoqueInsuficienteException;
 import exceptions.RegistroNaoEncontradoException;
 import model.Estoque;
-import model.ItemPedido;
 import model.Produto;
 import java.time.LocalDate;
 import java.util.*;
@@ -12,7 +11,7 @@ import util.ArquivoUtil;
 import util.LoggerService;
 
 public class EstoqueController {
-    private LinkedHashMap<Integer, Estoque> mapaEstoque = new LinkedHashMap<>();
+    private LinkedHashMap<Integer, Estoque> mapaEstoque;
     private ProdutoController produtoController;
     private final ArquivoUtil arquivoUtil = new ArquivoUtil();
 

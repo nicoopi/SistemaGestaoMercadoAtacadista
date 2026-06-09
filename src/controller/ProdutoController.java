@@ -13,7 +13,7 @@ import util.ArquivoUtil;
 import util.LoggerService;
 
 public class ProdutoController {
-    private LinkedHashMap<Integer, Produto> mapaProduto = new LinkedHashMap<>();
+    private LinkedHashMap<Integer, Produto> mapaProduto;
     private Produto ultimoProdutoCadastrado = null;
     private final ArquivoUtil arquivoUtil = new ArquivoUtil();
 
