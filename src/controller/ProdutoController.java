@@ -56,20 +56,14 @@ public class ProdutoController {
         return produtoEncontrado;
     }
     public void removerProdutoPorID(int iDParaRemover) throws RegistroNaoEncontradoException {
-        List<Integer> chavesParaRemover = new ArrayList<>();
-        for (Produto produto : mapaProduto.values()) {
-            if (produto.getId() == iDParaRemover) {
-                chavesParaRemover.add(produto.getId());
-            }
-        }
-        if (chavesParaRemover.isEmpty()) {
+        Produto produtoRemovido = mapaProduto.remove(iDParaRemover);
+
+        if(produtoRemovido == null) {
             throw new RegistroNaoEncontradoException("ERRO: Nenhum estoque encontrado para o ID " + iDParaRemover);
         }
-        for (Integer chave : chavesParaRemover) {
-            mapaProduto.remove(chave);
-            arquivoUtil.salvarDados(this.mapaProduto, "produto.dat");
-            LoggerService.log("INFO", "Produto removido com sucesso - ID: " + iDParaRemover);
-        }
+
+        arquivoUtil.salvarDados(this.mapaProduto, "produto.dat");
+        LoggerService.log("INFO", "Produto removido com sucesso - ID: " + iDParaRemover);
     }
 
     public HashMap<Integer,Produto> listarProdutos(){

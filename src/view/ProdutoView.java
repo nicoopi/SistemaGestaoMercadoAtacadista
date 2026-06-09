@@ -22,12 +22,12 @@ public class ProdutoView {
          do {
              try {
                  System.out.println("\n===== MENU PRODUTO =====");
-                 System.out.println("1 - CADASTRAR PRODUTO ");
-                 System.out.println("2 - EXIBIR PRODUTOS CADASTRADOS");
-                 System.out.println("3 - EXIBIR ÚLTIMO PRODUTO CADASTRADO");
-                 System.out.println("4 - EXIBIR PRODUTO POR ID");
-                 System.out.println("5 - REMOVER PRODUTO POR ID");
-                 System.out.println("0 - SAIR");
+                 System.out.println("1 - Cadastrar produto ");
+                 System.out.println("2 - Exibir produtos cadastrados");
+                 System.out.println("3 - Exibir último produto cadastrado");
+                 System.out.println("4 - Exibir produto por ID");
+                 System.out.println("5 - Remover produto por ID");
+                 System.out.println("0 - Sair");
                  System.out.print("Digite a opção que deseja: ");
                  opcao = sc.nextInt();
                  limparBuffer();
@@ -140,8 +140,7 @@ public class ProdutoView {
         try {
             System.out.println("----- Remoção de Produto -----");
             int id = lerIDProduto();
-            limparBuffer();
-            if(estoqueController == null && estoqueController.existeProdutoNoEstoque(id)){
+            if(estoqueController != null && estoqueController.existeProdutoNoEstoque(id)){
                 System.out.println("ERRO: Operação bloqueda");
                 System.out.println("O sistema identificou que este produto ainda existe no estoque");
                 System.out.println("Por gentileza, remova do estoque antes de excluí-lo do cátalogo");

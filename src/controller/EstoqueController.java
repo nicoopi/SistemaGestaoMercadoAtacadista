@@ -49,27 +49,22 @@ public class EstoqueController {
     }
 
     public void removerProdutoPorLote(int iDParaRemover) throws RegistroNaoEncontradoException {
-        List<String> chavesParaRemover = new ArrayList<>();
-        for (Estoque estoque : mapaEstoque.values()) {
-            if (estoque.getProduto().getId() == iDParaRemover) {
-                chavesParaRemover.add(estoque.getLote());
-            }
-        }
-        if (chavesParaRemover.isEmpty()) {
+        Estoque estoqueRemovido = mapaEstoque.remove(iDParaRemover);
+
+        if(estoqueRemovido == null) {
             throw new RegistroNaoEncontradoException("ERRO: Nenhum estoque encontrado para o ID " + iDParaRemover);
         }
-        for (String chave : chavesParaRemover) {
-            mapaEstoque.remove(chave);
 
-            arquivoUtil.salvarDados(this.mapaEstoque, "estoque.dat");
-            LoggerService.log("INFO", "Produto removido - ID: " + iDParaRemover);
-        }
+        arquivoUtil.salvarDados(this.mapaEstoque, "estoque.dat");
+        LoggerService.log("INFO", "Produto removido do estoque - ID: " + iDParaRemover);
     }
 
     public Estoque localizarProdutoPorLote(String lote) throws RegistroNaoEncontradoException {
-        if (mapaEstoque.containsKey(lote)) {
-            LoggerService.log("INFO", "Estoque encontrado - LOTE: " + lote);
-            return mapaEstoque.get(lote);
+        for (Estoque estoque : mapaEstoque.values()) {
+            if(estoque.getLote().equalsIgnoreCase(lote)) {
+                LoggerService.log("INFO", "Estoque encontrado - LOTE: " + lote);
+                return estoque;
+            }
         }
         throw new RegistroNaoEncontradoException("ERRO: LOTE NÃO ENCONTRADO! DIGITE UM LOTE VÁLIDO");
     }

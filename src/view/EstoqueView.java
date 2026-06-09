@@ -21,13 +21,13 @@ public class EstoqueView {
         do {
             try {
                 System.out.println("\n ====== MENU ESTOQUE ======");
-                System.out.println("1 - CADASTRAR PRODUTO NO ESTOQUE ");
-                System.out.println("2 - EXIBIR PRODUTO NO ESTOQUE ");
-                System.out.println("3 - LOCALIZAR PRODUTOS POR LOTE ");
-                System.out.println("4 - RELÁTORIO DE VALOR TOTAL EM ESTOQUE ");
-                System.out.println("5 - REMOVER LOTE VENCIDO ");
-                System.out.println("0 - SAIR ");
-                System.out.print("DIGITE UMA OPÇÃO VÁLIDA:");
+                System.out.println("1 - Cadastrar produto no estoque ");
+                System.out.println("2 - Exibir produto no estoque ");
+                System.out.println("3 - Localizar produtos por lote ");
+                System.out.println("4 - Relatório de valor total em estoque ");
+                System.out.println("5 - Remover lote vencido");
+                System.out.println("0 - Sair ");
+                System.out.print("Digite a opção que deseja: ");
                 opcao = sc.nextInt();
                 limparBuffer();
                 System.out.println("===========================\n");
@@ -57,6 +57,7 @@ public class EstoqueView {
             } catch (InputMismatchException e) {
                 System.out.println("ERRO: Digite somente números!");
                 LoggerService.log("ERROR", "Usuário digitou um caractere inválido no menu.");
+                limparBuffer();
             }
         } while (opcao != 0);
     }
@@ -92,7 +93,6 @@ public class EstoqueView {
     public void exibirProdutoNoEstoque() {
         try {
             int id = lerId();
-            limparBuffer();
 
             Estoque estoque = controller.buscarEstoquePorId(id);
             System.out.println(estoque);
@@ -118,9 +118,8 @@ public class EstoqueView {
         try {
             System.out.println("----- Remoção de Produto -----");
             int id = lerId();
-            limparBuffer();
             controller.removerProdutoPorLote(id);
-            System.out.println("\nSucesso! Produto removido do carrinho!");
+            System.out.println("\nSucesso! Produto removido do Estoque!");
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
             LoggerService.log("ERROR", e.getMessage());
@@ -135,8 +134,10 @@ public class EstoqueView {
             System.out.println("------ Produtos encontrados ------");
             String lote = lerLote();
 
-            controller.localizarProdutoPorLote(lote);
-            System.out.println();
+            Estoque estoqueEncontrado = controller.localizarProdutoPorLote(lote);
+
+            System.out.println(estoqueEncontrado);
+
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
             LoggerService.log("ERROR", e.getMessage());
@@ -145,7 +146,10 @@ public class EstoqueView {
     public void exibirValorTotalEmEstoque() {
         try {
             System.out.println("----- Valor total em estoque -----");
-            controller.valorTotalEmEstoque();
+             double total = controller.valorTotalEmEstoque();
+
+            System.out.printf("\t\tR$ %.2f\n", total);
+
         } catch (EstoqueInsuficienteException e) {
             System.out.println(e.getMessage());
             LoggerService.log("ERROR", e.getMessage());
