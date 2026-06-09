@@ -39,7 +39,7 @@ public class ProdutoView {
                          exibirListaProdutos(controller.listarProdutos());
                          break;
                      case 3:
-                         exibirProduto(controller.exibirUltimoProdutoCadastrado());
+                         exibirProduto();
                          break;
                      case 4:
                          exibirBuscaPorId();
@@ -95,19 +95,18 @@ public class ProdutoView {
          System.out.print("Digite um ID válido para o produto: ");
          return sc.nextInt();
      }
-    public void exibirProduto(Produto p) {
-        try {
-            if (p == null) {
-                System.out.println("PRODUTO VAZIO");
-            } else {
-                System.out.println("----- INFORMAÇÕES DO PRODUTO -----");
-                System.out.println(p);
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            LoggerService.log("ERROR", e.getMessage());
-        }
-    }
+    public void exibirProduto() {
+         try {
+             Produto produto = controller.exibirUltimoProdutoCadastrado();
+
+             System.out.println("----- INFORMAÇÕES DO ÚLTIMO PRODUTO -----");
+             System.out.println(produto);
+
+         } catch (IllegalArgumentException e) {
+             System.out.println(e.getMessage());
+             LoggerService.log("ERROR", e.getMessage());
+         }
+     }
     public void exibirListaProdutos(HashMap<Integer, Produto> mapa) {
          if (mapa.isEmpty()) {
              System.out.println("Nenhum produto cadastrado no momento.");
