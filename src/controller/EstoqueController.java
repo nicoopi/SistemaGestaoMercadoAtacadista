@@ -15,8 +15,10 @@ public class EstoqueController {
     private ProdutoController produtoController;
     private final ArquivoUtil arquivoUtil = new ArquivoUtil();
 
-    public EstoqueController() {
+    public EstoqueController(ProdutoController produtoController) {
         Object dadosRecebidos = arquivoUtil.lerDados("estoque.dat");
+
+        this.produtoController = produtoController;
 
         if(dadosRecebidos != null) {
             this.mapaEstoque = (LinkedHashMap<Integer, Estoque>) dadosRecebidos;

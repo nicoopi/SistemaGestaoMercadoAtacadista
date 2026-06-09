@@ -19,16 +19,12 @@ public class CarrinhoController {
     private Cliente clienteAtual;
     private final ArquivoUtil arquivoUtil = new ArquivoUtil();
 
-    public CarrinhoController(EstoqueController estoqueController, Cliente clienteAtual) throws IllegalArgumentException{
+    public CarrinhoController(EstoqueController estoqueController) throws IllegalArgumentException{
         if(estoqueController == null) {
             throw new IllegalArgumentException("ERRO: O Estoque não pode ser nulo. O carrinho precisa de conexão com o estoque para funcionar!");
         }
 
-        if(clienteAtual == null) {
-            throw new IllegalArgumentException("ERRO: O cliente não pode ser nulo. Todo carrinho precisa ter um dono!");
-        }
         this.estoqueController = estoqueController;
-        this.clienteAtual = clienteAtual;
 
         Object dadosRecebidos = arquivoUtil.lerDados("carrinho.dat");
 
@@ -55,7 +51,7 @@ public class CarrinhoController {
        this.itensCarrinho.add(novoItem);
 
        arquivoUtil.salvarDados(this.itensCarrinho, "carrinho.dat");
-       LoggerService.log("INFO", "Produto ID: " + idProduto + " adicionado ao carrinho do Cliente: " + getClienteAtual().getNome());
+       LoggerService.log("INFO", "Produto ID: " + idProduto + " adicionado ao carrinho atual.");
    }
 
 
@@ -120,10 +116,14 @@ public class CarrinhoController {
             estoqueController.removerQuantidadeDeEstoque(item.getProduto().getId(), item.getQuantidadePedida());
         }
         itensCarrinho.clear();
+
         arquivoUtil.salvarDados(this.itensCarrinho, "carrinho.dat");
         LoggerService.log("INFO", "Compra finalizada com sucesso. Cliente: " + getClienteAtual().getNome() + " | Valor Total: R$" + totalCompra);
+
         return totalCompra;
+    }
 
-
+    public void definirClientedaCompra(Cliente clienteAtual) {
+        this.clienteAtual = clienteAtual;
     }
 }

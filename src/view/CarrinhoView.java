@@ -1,6 +1,8 @@
 package view;
 
 import controller.CarrinhoController;
+import controller.ClienteFisicoController;
+import controller.ClienteJuridicoController;
 import controller.PedidoController;
 import exceptions.CarrinhoVazioException;
 import exceptions.EstoqueInsuficienteException;
@@ -16,18 +18,21 @@ import java.util.Scanner;
 public class CarrinhoView {
     private Scanner sc = new Scanner(System.in);
     private CarrinhoController controller;
-    PedidoController pedidoController;
+    private PedidoController pedidoController;
+    private ClienteFisicoController clienteFisicoController;
+    private ClienteJuridicoController clienteJuridicoController;
 
     public int lerIDProduto() {
         System.out.print("Digite o ID do Produto que deseja: ");
         return sc.nextInt();
     }
 
-
     public int lerQuantidadeDesejada() {
         System.out.print("Digite a Quantidade Desejada: ");
         return sc.nextInt();
     }
+
+
 
     public void exibirMensagem(String msg) {
         System.out.println(msg);
@@ -90,6 +95,7 @@ public class CarrinhoView {
             controller.adicionarProdutonoCarrinho(lerIDProduto(), lerQuantidadeDesejada());
             System.out.println("\nSucesso! Produto adicionado ao carrinho!");
         } catch (IllegalArgumentException | RegistroNaoEncontradoException e) {
+            System.out.println(e.getMessage());
             LoggerService.log("ERROR", e.getMessage());
         } catch (EstoqueInsuficienteException e) {
             System.out.println("Aviso do Estoque: " + e.getMessage());
@@ -136,6 +142,30 @@ public class CarrinhoView {
         try {
             System.out.println("----- Finalização da Compra -----");
 
+            System.out.println("Qual o tipo de cliente?");
+            System.out.println("1 - Pessoa Física (CPF)");
+            System.out.println("2 - Pessoa Jurídica (CNPJ)");
+            System.out.print("Opção: ");
+            int tipoCliente = sc.nextInt();
+            limparBuffer();
+
+            Cliente clienteEncontrado = null;
+
+            if (tipoCliente == 1) {
+                System.out.print("Digite o CPF do cliente: ");
+                String cpf = sc.nextLine();
+                clienteEncontrado = clienteFisicoController.buscarPorCpf(cpf);
+            } else if (tipoCliente == 2) {
+                System.out.print("Digite o CNPJ do cliente: ");
+                String cnpj = sc.nextLine();
+                clienteEncontrado = clienteJuridicoController.buscarPorCnpj(cnpj);
+            } else {
+                System.out.println("ERRO: Opção de cliente inválida. Compra cancelada.");
+                return;
+            }
+
+            controller.definirClientedaCompra(clienteEncontrado);
+
             Cliente clienteDaVez = controller.getClienteAtual();
             List<ItemPedido> itensComprados = controller.listarItensCarrinho();
 
@@ -159,4 +189,11 @@ public class CarrinhoView {
         this.pedidoController = pedidoController;
     }
 
+    public void setClienteFisicoController(ClienteFisicoController clienteFisicoController) {
+        this.clienteFisicoController = clienteFisicoController;
+    }
+
+    public void setClienteJuridicoController(ClienteJuridicoController clienteJuridicoController) {
+        this.clienteJuridicoController = clienteJuridicoController;
+    }
 }

@@ -88,7 +88,7 @@ public class PedidoView {
             Pedido pedidoEncontrado = controller.buscarPedidoEspecifico(idBuscado);
 
             System.out.println("----- DETALHES DO PEDIDO -----");
-            System.out.println("Pedido #" + pedidoEncontrado.getIdPedido() + " | Cliente: " + pedidoEncontrado.getCliente().getNome());
+            System.out.println(pedidoEncontrado);
 
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
