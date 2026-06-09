@@ -7,6 +7,7 @@ import exceptions.RegistroNaoEncontradoException;
 import controller.ProdutoController;
 import view.ProdutoView;
 import model.Produto;
+import util.LoggerService;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
@@ -60,6 +61,7 @@ public class EstoqueView {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("ERRO: Digite somente números!");
+                LoggerService.log("ERROR", "Usuário digitou um caractere inválido no menu.");
             }
         } while (opcao != 0);
     }
@@ -76,26 +78,22 @@ public class EstoqueView {
 
         return LocalDate.parse(dataTexto, formatador);
     }
-
     public int lerQuantidadeAtual() {
         System.out.print("Digite a quantidade que deseja cadastrar: ");
         int quantidade = sc.nextInt();
         limparBuffer();
         return quantidade;
     }
-
     public String lerLote() {
         System.out.print("Digite o lote do produto: ");
         return sc.nextLine();
     }
-
     public int lerId() {
         System.out.print("Digite o ID do produto que deseja exibir: ");
         int id = sc.nextInt();
         limparBuffer();
         return id;
     }
-
     public void exibirProdutoNoEstoque() {
         try {
             int id = lerId();
@@ -104,10 +102,10 @@ public class EstoqueView {
             Estoque estoque = controller.buscarEstoquePorId(id);
             System.out.println(estoque);
         } catch (RegistroNaoEncontradoException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
-
     public void exibirCadastroProdutoEmEstoque() {
         try {
             System.out.println("----- Cadastro de Produto -----");
@@ -115,13 +113,12 @@ public class EstoqueView {
             System.out.println("\nSucesso: Produto cadastrado!");
         } catch (InputMismatchException e) {
             System.out.println("ERRO: Formato de preço ou ID inválido! Digite apenas números no preço e no ID.");
-        } catch (IllegalArgumentException e) {
+            LoggerService.log("ERROR", e.getMessage());
+        } catch (IllegalArgumentException | RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
-        } catch (RegistroNaoEncontradoException e) {
-            throw new RuntimeException(e);
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
-
     public void exibirProdutosRemovidos() {
         try {
             System.out.println("----- Remoção de Produto -----");
@@ -131,8 +128,10 @@ public class EstoqueView {
             System.out.println("\nSucesso! Produto removido do carrinho!");
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         } catch (InputMismatchException e) {
             System.out.println("ERRO: Formato inválido! Por favor, digite apenas números.");
+            LoggerService.log("ERROR", e.getMessage());
             sc.nextLine();
         }
     }
@@ -145,6 +144,7 @@ public class EstoqueView {
             System.out.println();
         } catch (RegistroNaoEncontradoException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
     public void exibirValorTotalEmEstoque() {
@@ -152,7 +152,8 @@ public class EstoqueView {
             System.out.println("----- Valor total em estoque -----");
             controller.valorTotalEmEstoque();
         } catch (EstoqueInsuficienteException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
 

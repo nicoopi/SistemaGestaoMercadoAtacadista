@@ -2,6 +2,7 @@ package view;
 
 import controller.ProdutoController;
 import exceptions.RegistroNaoEncontradoException;
+import util.LoggerService;
 
 import model.Produto;
 import java.util.InputMismatchException;
@@ -23,7 +24,7 @@ public class ProdutoView {
                  System.out.println("2 - EXIBIR PRODUTOS CADASTRADOS");
                  System.out.println("3 - EXIBIR ÚLTIMO PRODUTO CADASTRADO");
                  System.out.println("4 - EXIBIR PRODUTO POR ID");
-                 System.out.println("5 - EXIBIR PRODUTO POR ID");
+                 System.out.println("5 - REMOVER PRODUTO POR ID");
                  System.out.println("0 - SAIR");
                  System.out.print("Digite a opção que deseja: ");
                  opcao = sc.nextInt();
@@ -43,6 +44,8 @@ public class ProdutoView {
                      case 4:
                          exibirBuscaPorId();
                          break;
+                     case 5:
+                         exibirProdutosRemovidos();
                      case 0:
                          System.out.println("Saindo do Menu cadastro de PRODUTO...");
                          break;
@@ -51,11 +54,11 @@ public class ProdutoView {
                     }
              } catch (InputMismatchException e) {
                  System.out.println("ERRO: Digite somente números!");
+                 LoggerService.log("ERROR", "Usuário digitou um caractere inválido no menu.");
                  limparBuffer();
              }
          }while (opcao != 0) ;
      }
-
      public void limparBuffer(){
          sc.nextLine();
      }
@@ -72,12 +75,13 @@ public class ProdutoView {
             System.out.println("\nSucesso: Produto cadastrado!");
         }  catch (InputMismatchException e) {
             System.out.println("ERRO: Formato de preço ou ID inválido! Digite apenas números no preço e no ID.");
+            LoggerService.log("ERROR", e.getMessage());
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
         }
     }
-
      public String lerNomeProduto(){
          System.out.print("Digite um nome válido para o produto: ");
          return sc.nextLine();
@@ -90,7 +94,6 @@ public class ProdutoView {
          System.out.print("Digite um ID válido para o produto: ");
          return sc.nextInt();
      }
-
      public void exibirProduto(Produto p) {
          if (p == null) {
              System.out.println("PRODUTO VAZIO");
@@ -99,7 +102,6 @@ public class ProdutoView {
              System.out.println(p);
          }
      }
-
      public void exibirListaProdutos(HashMap<Integer, Produto> mapa) {
          if (mapa.isEmpty()) {
              System.out.println("Nenhum produto cadastrado no momento.");
@@ -119,14 +121,30 @@ public class ProdutoView {
 
          } catch (InputMismatchException e) {
              System.out.println("ERRO: O ID deve conter apenas números!");
+             LoggerService.log("ERROR", e.getMessage());
              limparBuffer();
 
          }catch (IllegalArgumentException | RegistroNaoEncontradoException e) {
              System.out.println(e.getMessage());
-
+             LoggerService.log("ERROR", e.getMessage());
          }
      }
-
+    public void exibirProdutosRemovidos() {
+        try {
+            System.out.println("----- Remoção de Produto -----");
+            int id = lerIDProduto();
+            limparBuffer();
+            controller.removerProdutoPorID(id);
+            System.out.println("\nSucesso! Produto removido");
+        } catch (RegistroNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
+        } catch (InputMismatchException e) {
+            System.out.println("ERRO: Formato inválido! Por favor, digite apenas números.");
+            LoggerService.log("ERROR", e.getMessage());
+            sc.nextLine();
+        }
+    }
     public void setController(ProdutoController controller) {
         this.controller = controller;
     }

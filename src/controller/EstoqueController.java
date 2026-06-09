@@ -3,32 +3,44 @@ package controller;
 import exceptions.EstoqueInsuficienteException;
 import exceptions.RegistroNaoEncontradoException;
 import model.Estoque;
+import model.ItemPedido;
 import model.Produto;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
+
+import util.ArquivoUtil;
+import util.LoggerService;
 
 public class EstoqueController {
     private LinkedHashMap<Integer, Estoque> mapaEstoque = new LinkedHashMap<>();
     private ProdutoController produtoController;
+    private final ArquivoUtil arquivoUtil = new ArquivoUtil();
 
     public EstoqueController() {
-    }
+        Object dadosRecebidos = arquivoUtil.lerDados("estoque.dat");
 
+        if(dadosRecebidos != null) {
+            this.mapaEstoque = (LinkedHashMap<Integer, Estoque>) dadosRecebidos;
+        } else {
+            this.mapaEstoque = new LinkedHashMap<>();
+        }
+    }
     public void cadastrarProdutoEstoque(int id, int quantidadeAtual, String lote, LocalDate dataDeValidade) throws RegistroNaoEncontradoException {
         Produto produtoEncontradoEmEstoque = produtoController.buscarProdutoPorId(id);
         if (produtoEncontradoEmEstoque == null) {
             throw new RegistroNaoEncontradoException("ERRO: Produto não encontrado");
         }
         Estoque novoEstoque = new Estoque(produtoEncontradoEmEstoque, quantidadeAtual, lote, dataDeValidade);
-
         mapaEstoque.put(id, novoEstoque);
+
+        arquivoUtil.salvarDados(this.mapaEstoque, "estoque.dat");
+        LoggerService.log("INFO", "Produto cadastrado - ID: " + produtoEncontradoEmEstoque.getId());
     }
 
     public Estoque buscarEstoquePorId(int id) throws RegistroNaoEncontradoException {
         for (Estoque estoque : mapaEstoque.values()) {
             if (estoque.getProduto().getId() == id) {
+                LoggerService.log("INFO", "Estoque encontrado - ID: " + estoque.getProduto().getId());
                 return estoque;
             }
         }
@@ -47,11 +59,15 @@ public class EstoqueController {
         }
         for (String chave : chavesParaRemover) {
             mapaEstoque.remove(chave);
+
+            arquivoUtil.salvarDados(this.mapaEstoque, "estoque.dat");
+            LoggerService.log("INFO", "Produto removido - ID: " + iDParaRemover);
         }
     }
 
     public Estoque localizarProdutoPorLote(String lote) throws RegistroNaoEncontradoException {
         if (mapaEstoque.containsKey(lote)) {
+            LoggerService.log("INFO", "Estoque encontrado - LOTE: " + lote);
             return mapaEstoque.get(lote);
         }
         throw new RegistroNaoEncontradoException("ERRO: LOTE NÃO ENCONTRADO! DIGITE UM LOTE VÁLIDO");
@@ -69,6 +85,8 @@ public class EstoqueController {
 
             valorTotal += (quantidade * preco);
         }
+
+        LoggerService.log("INFO", "Valor total em estoque exibido!");
         return valorTotal;
     }
 
@@ -80,6 +98,9 @@ public class EstoqueController {
         }
         int novaQuantidade = estoqueEncontrado.getQuantidadeAtual() + quantidadeAdicional;
         estoqueEncontrado.setQuantidadeAtual(novaQuantidade);
+
+        arquivoUtil.salvarDados(this.mapaEstoque, "estoque.dat");
+        LoggerService.log("INFO", "Nova quantidade em estoque cadastrada!");
         return novaQuantidade;
     }
 
@@ -92,10 +113,12 @@ public class EstoqueController {
         if (quantidadeRemovida > estoqueEncontrado.getQuantidadeAtual()) {
             throw new IllegalArgumentException("ERRO: Estoque insuficiente para o produto ID " + id);
         }
-                int novaQuantidade = estoqueEncontrado.getQuantidadeAtual() - quantidadeRemovida;
-                estoqueEncontrado.setQuantidadeAtual(novaQuantidade);
-                return novaQuantidade;
-            }
+        int novaQuantidade = estoqueEncontrado.getQuantidadeAtual() - quantidadeRemovida;
+        estoqueEncontrado.setQuantidadeAtual(novaQuantidade);
+        arquivoUtil.salvarDados(this.mapaEstoque, "estoque.dat");
+        LoggerService.log("INFO", "Nova quantidade em estoque cadastraa");
+        return novaQuantidade;
+    }
 
     public void setProdutoController(ProdutoController produtoController) {
         this.produtoController = produtoController;
