@@ -5,21 +5,16 @@ import exceptions.EstoqueInsuficienteException;
 import model.Estoque;
 import exceptions.RegistroNaoEncontradoException;
 import controller.ProdutoController;
-import view.ProdutoView;
-import model.Produto;
 import util.LoggerService;
-
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-
 import java.util.InputMismatchException;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class EstoqueView {
     private Scanner sc = new Scanner(System.in);
     private EstoqueController controller;
+    private ProdutoController produtoController;
 
     public void mostrarMenuEstoque() {
         int opcao = -1;
@@ -161,4 +156,7 @@ public class EstoqueView {
         this.controller = controller;
     }
 
+    public void setProdutoController(ProdutoController produtoController) {
+        this.produtoController = produtoController;
+    }
 }

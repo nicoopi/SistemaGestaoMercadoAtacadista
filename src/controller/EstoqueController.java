@@ -120,9 +120,7 @@ public class EstoqueController {
         return novaQuantidade;
     }
 
-    public void setProdutoController(ProdutoController produtoController) {
-        this.produtoController = produtoController;
-    }
+
 }
 
 
