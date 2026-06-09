@@ -46,6 +46,7 @@ public class ProdutoView {
                          break;
                      case 5:
                          exibirProdutosRemovidos();
+                         break;
                      case 0:
                          System.out.println("Saindo do Menu cadastro de PRODUTO...");
                          break;
@@ -86,23 +87,28 @@ public class ProdutoView {
          System.out.print("Digite um nome válido para o produto: ");
          return sc.nextLine();
      }
-     public double lerPrecoProduto() {
+    public double lerPrecoProduto() {
          System.out.print("Digite o preço base do produto: ");
          return sc.nextDouble();
      }
-     public int lerIDProduto() {
+    public int lerIDProduto() {
          System.out.print("Digite um ID válido para o produto: ");
          return sc.nextInt();
      }
-     public void exibirProduto(Produto p) {
-         if (p == null) {
-             System.out.println("PRODUTO VAZIO");
-         } else {
-             System.out.println("----- INFORMAÇÕES DO PRODUTO -----");
-             System.out.println(p);
-         }
-     }
-     public void exibirListaProdutos(HashMap<Integer, Produto> mapa) {
+    public void exibirProduto(Produto p) {
+        try {
+            if (p == null) {
+                System.out.println("PRODUTO VAZIO");
+            } else {
+                System.out.println("----- INFORMAÇÕES DO PRODUTO -----");
+                System.out.println(p);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
+        }
+    }
+    public void exibirListaProdutos(HashMap<Integer, Produto> mapa) {
          if (mapa.isEmpty()) {
              System.out.println("Nenhum produto cadastrado no momento.");
          } else {
