@@ -1,8 +1,9 @@
 package model;
 
 import java.time.LocalDate;
+import java.io.Serializable;
 
-public class Estoque {
+public class Estoque implements Serializable{
     private Produto produto;
     private int quantidadeAtual;
     private String lote;
