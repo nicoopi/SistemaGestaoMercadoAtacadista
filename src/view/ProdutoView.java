@@ -1,5 +1,6 @@
 package view;
 
+import controller.EstoqueController;
 import controller.ProdutoController;
 import exceptions.RegistroNaoEncontradoException;
 import util.LoggerService;
@@ -14,6 +15,7 @@ public class ProdutoView {
      private Scanner sc = new Scanner(System.in);
      private ProdutoController controller;
      private ProdutoView view;
+     private EstoqueController estoqueController;
 
      public void mostrarMenuProduto() {
          int opcao = -1;
@@ -139,6 +141,12 @@ public class ProdutoView {
             System.out.println("----- Remoção de Produto -----");
             int id = lerIDProduto();
             limparBuffer();
+            if(estoqueController == null && estoqueController.existeProdutoNoEstoque(id)){
+                System.out.println("ERRO: Operação bloqueda");
+                System.out.println("O sistema identificou que este produto ainda existe no estoque");
+                System.out.println("Por gentileza, remova do estoque antes de excluí-lo do cátalogo");
+                return;
+            }
             controller.removerProdutoPorID(id);
             System.out.println("\nSucesso! Produto removido");
         } catch (RegistroNaoEncontradoException e) {
@@ -152,5 +160,9 @@ public class ProdutoView {
     }
     public void setController(ProdutoController controller) {
         this.controller = controller;
+    }
+
+    public void setEstoqueController(EstoqueController estoqueController) {
+        this.estoqueController = estoqueController;
     }
 }

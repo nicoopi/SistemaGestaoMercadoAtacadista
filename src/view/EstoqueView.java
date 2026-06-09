@@ -21,13 +21,13 @@ public class EstoqueView {
         do {
             try {
                 System.out.println("\n ====== MENU ESTOQUE ======");
-                System.out.println("1 - CADASTRAR PRODUTO NO ESTOQUE: ");
-                System.out.println("2 - EXIBIR PRODUTO NO ESTOQUE: ");
-                System.out.println("3 - LOCALIZAR PRODUTOS POR LOTE: ");
-                System.out.println("4 - RELÁTORIO DE VALOR TOTAL EM ESTOQUE: ");
-                System.out.println("5 - REMOVER LOTE VENCIDO: ");
+                System.out.println("1 - CADASTRAR PRODUTO NO ESTOQUE ");
+                System.out.println("2 - EXIBIR PRODUTO NO ESTOQUE ");
+                System.out.println("3 - LOCALIZAR PRODUTOS POR LOTE ");
+                System.out.println("4 - RELÁTORIO DE VALOR TOTAL EM ESTOQUE ");
+                System.out.println("5 - REMOVER LOTE VENCIDO ");
                 System.out.println("0 - SAIR ");
-                System.out.print("DIGITE UMA OPÇÃO VÁLIDA");
+                System.out.print("DIGITE UMA OPÇÃO VÁLIDA:");
                 opcao = sc.nextInt();
                 limparBuffer();
                 System.out.println("===========================\n");

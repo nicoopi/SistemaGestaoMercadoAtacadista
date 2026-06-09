@@ -25,5 +25,11 @@ public class Main {
 //        FornecedorController fornecedorController = new FornecedorController();
 //        fornecedorView.setController(fornecedorController);
 //        fornecedorView.exibirMenuFornecedor();
+
+        EstoqueView view = new EstoqueView();
+        EstoqueController controller = new EstoqueController();
+        view.setController(controller);
+        view.mostrarMenuEstoque();
     }
-}
+    }
+

@@ -1,7 +1,6 @@
 package controller;
 
 import exceptions.RegistroNaoEncontradoException;
-import model.Estoque;
 import model.Produto;
 
 import java.util.ArrayList;

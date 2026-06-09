@@ -118,7 +118,14 @@ public class EstoqueController {
         LoggerService.log("INFO", "Nova quantidade em estoque cadastraa");
         return novaQuantidade;
     }
-
+    public boolean existeProdutoNoEstoque(int idProduto){
+        for (Estoque estoque : mapaEstoque.values()){
+            if(estoque.getProduto().getId() == idProduto){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
 
