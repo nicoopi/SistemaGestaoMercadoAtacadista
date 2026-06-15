@@ -14,9 +14,11 @@ public class Produto implements Serializable{
     public String getNomeProduto(){
         return nomeProduto;
     }
+
     public double getPrecoBase() {
         return precoBase;
     }
+
     public int getId() {
         return id;
     }
@@ -50,4 +52,3 @@ public class Produto implements Serializable{
         return "Nome do Produto: " + getNomeProduto() + " | Preço Base: " + getPrecoBase() + " | ID: " + getId();
     }
 }
-

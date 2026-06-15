@@ -54,7 +54,6 @@ public class CarrinhoController {
        LoggerService.log("INFO", "Produto ID: " + idProduto + " adicionado ao carrinho atual.");
    }
 
-
     public List<ItemPedido> listarItensCarrinho() {
         LoggerService.log("INFO", "Listagem dos itens do carrinho executada.");
         return this.itensCarrinho;
@@ -102,7 +101,6 @@ public class CarrinhoController {
 
         return statusRetorno;
     }
-
 
     public double finalizarCompra() throws CarrinhoVazioException, RegistroNaoEncontradoException {
         if(itensCarrinho.isEmpty()) {

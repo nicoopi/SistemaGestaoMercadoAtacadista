@@ -25,6 +25,7 @@ public class ProdutoController {
             this.mapaProduto = new LinkedHashMap<>();
         }
     }
+
     public void cadastrarProduto(String nomeProduto , double precoBase, int id) throws IllegalArgumentException{
         if(mapaProduto.containsKey(id)) {
             throw new IllegalArgumentException("ERRO: ID já cadastrado! digite um id válido!");
@@ -46,6 +47,7 @@ public class ProdutoController {
             return ultimoProdutoCadastrado;
         }
     }
+
     public Produto buscarProdutoPorId(int id) throws RegistroNaoEncontradoException {
         Produto produtoEncontrado = mapaProduto.get(id);
 
@@ -55,6 +57,7 @@ public class ProdutoController {
         LoggerService.log("INFO", "Busca por ID realizada com sucesso - ID: " + id);
         return produtoEncontrado;
     }
+
     public void removerProdutoPorID(int iDParaRemover) throws RegistroNaoEncontradoException {
         Produto produtoRemovido = mapaProduto.remove(iDParaRemover);
 
@@ -70,5 +73,3 @@ public class ProdutoController {
         return mapaProduto;
     }
 }
-
-

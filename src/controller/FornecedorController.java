@@ -60,4 +60,27 @@ public class FornecedorController {
         LoggerService.log("INFO", "Fornecedor encontrado - CNPJ: " + fornecedor.getCnpj());
         return fornecedor;
     }
+
+    public void modificarFornecedor(String cnpjAtual, String novaRazaoSocial, String novoCnpj, String novoTelefone) throws RegistroNaoEncontradoException, IllegalArgumentException {
+        Fornecedor fornecedor = buscarFornecedorPorCnpj(cnpjAtual);
+        String cnpjAtualUpper = cnpjAtual.toUpperCase();
+        String novoCnpjUpper = novoCnpj.toUpperCase();
+
+        if (!cnpjAtualUpper.equals(novoCnpjUpper) && mapFornecedor.containsKey(novoCnpjUpper)) {
+            throw new IllegalArgumentException("ERRO: Já existe outro fornecedor cadastrado com o novo CNPJ!");
+        }
+
+        if (!cnpjAtualUpper.equals(novoCnpjUpper)) {
+            mapFornecedor.remove(cnpjAtualUpper);
+        }
+
+        fornecedor.setRazaoSocial(novaRazaoSocial);
+        fornecedor.setCnpj(novoCnpj);
+        fornecedor.setTelefone(novoTelefone);
+
+        mapFornecedor.put(fornecedor.getCnpj(), fornecedor);
+
+        arquivoUtil.salvarDados(this.mapFornecedor, "fornecedores.dat");
+        LoggerService.log("INFO", "Fornecedor modificado - CNPJ: " + fornecedor.getCnpj());
+    }
 }

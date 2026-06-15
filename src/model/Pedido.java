@@ -30,6 +30,7 @@ public class Pedido implements Serializable {
     public int getIdPedido() {
         return idPedido;
     }
+    
     public List<ItemPedido> getListaItens() {
         return listaItens;
     }
@@ -93,7 +94,6 @@ public class Pedido implements Serializable {
     public double calcularTotalLiquido() {
         return calcularTotalBruto() - obterValorDesconto();
     }
-
 
     @Override
     public String toString() {

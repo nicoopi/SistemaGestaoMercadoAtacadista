@@ -32,16 +32,6 @@ public class CarrinhoView {
         return sc.nextInt();
     }
 
-
-
-    public void exibirMensagem(String msg) {
-        System.out.println(msg);
-    }
-
-    public void fecharScanner() {
-        sc.close();
-    }
-
     public void limparBuffer() {
         sc.nextLine();
     }
@@ -179,7 +169,6 @@ public class CarrinhoView {
             LoggerService.log("ERROR", e.getMessage());
         }
     }
-
 
     public void setController(CarrinhoController controller) {
         this.controller = controller;

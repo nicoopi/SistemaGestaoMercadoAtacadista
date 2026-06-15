@@ -74,22 +74,26 @@ public class EstoqueView {
 
         return LocalDate.parse(dataTexto, formatador);
     }
+
     public int lerQuantidadeAtual() {
         System.out.print("Digite a quantidade que deseja cadastrar: ");
         int quantidade = sc.nextInt();
         limparBuffer();
         return quantidade;
     }
+
     public String lerLote() {
         System.out.print("Digite o lote do produto: ");
         return sc.nextLine();
     }
+
     public int lerId() {
         System.out.print("Digite o ID do produto que deseja exibir: ");
         int id = sc.nextInt();
         limparBuffer();
         return id;
     }
+
     public void exibirProdutoNoEstoque() {
         try {
             int id = lerId();
@@ -101,6 +105,7 @@ public class EstoqueView {
             LoggerService.log("ERROR", e.getMessage());
         }
     }
+
     public void exibirCadastroProdutoEmEstoque() {
         try {
             System.out.println("----- Cadastro de Produto -----");
@@ -114,6 +119,7 @@ public class EstoqueView {
             LoggerService.log("ERROR", e.getMessage());
         }
     }
+
     public void exibirProdutosRemovidos() {
         try {
             System.out.println("----- Remoção de Produto -----");
@@ -129,6 +135,7 @@ public class EstoqueView {
             sc.nextLine();
         }
     }
+
     public void exibirProdutosEncontradosNoLote(){
         try {
             System.out.println("------ Produtos encontrados ------");
@@ -143,6 +150,7 @@ public class EstoqueView {
             LoggerService.log("ERROR", e.getMessage());
         }
     }
+
     public void exibirValorTotalEmEstoque() {
         try {
             System.out.println("----- Valor total em estoque -----");

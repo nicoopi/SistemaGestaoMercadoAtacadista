@@ -35,7 +35,6 @@ public class ItemPedido implements Serializable {
         this.quantidadePedida = quantidadePedida;
     }
 
-
     public void setPrecoUnitario(double precoUnitario) throws IllegalArgumentException {
         if(precoUnitario <= 0) {
             throw new IllegalArgumentException("ERRO: O preço unitário do produto deve ser maior que zero!");
@@ -51,5 +50,4 @@ public class ItemPedido implements Serializable {
     public String toString() {
         return "Produto: " + produto.getNomeProduto() + " | Quantidade Pedida: " + getQuantidadePedida() + " | Preço Unitário: R$ " + getPrecoUnitario() + " | Subtotal: R$ " + calcularSubTotal();
     }
-
 }

@@ -9,7 +9,6 @@ public class Estoque implements Serializable{
     private String lote;
     private LocalDate dataDeValidade;
 
-
     public Estoque (Produto produto, int quantidadeAtual, String lote, LocalDate dataDeValidade) throws IllegalArgumentException{
         if(produto == null) {
             throw new IllegalArgumentException("ERRO: O produto do estoque não pode ser NULO");
@@ -19,7 +18,6 @@ public class Estoque implements Serializable{
         setLote(lote);
         setDataDeValidade(dataDeValidade);
     }
-
 
     public Produto getProduto() {
         return produto;

@@ -62,15 +62,11 @@ public class ProdutoView {
              }
          }while (opcao != 0) ;
      }
-     public void limparBuffer(){
+
+    public void limparBuffer(){
          sc.nextLine();
      }
-     public void exibirMensagem(String mensagem){
-         System.out.println(mensagem);
-     }
-     public void fecharScanner() {
-         sc.close();
-     }
+
     public void exibirCadastroProduto() {
         try {
             System.out.println("----- Cadastro de Produto -----");
@@ -85,18 +81,21 @@ public class ProdutoView {
             LoggerService.log("ERROR", e.getMessage());
         }
     }
-     public String lerNomeProduto(){
+
+    public String lerNomeProduto(){
          System.out.print("Digite um nome válido para o produto: ");
          return sc.nextLine();
-     }
+    }
+
     public double lerPrecoProduto() {
          System.out.print("Digite o preço base do produto: ");
          return sc.nextDouble();
-     }
+    }
     public int lerIDProduto() {
          System.out.print("Digite um ID válido para o produto: ");
          return sc.nextInt();
-     }
+    }
+
     public void exibirProduto() {
          try {
              Produto produto = controller.exibirUltimoProdutoCadastrado();
@@ -108,7 +107,8 @@ public class ProdutoView {
              System.out.println(e.getMessage());
              LoggerService.log("ERROR", e.getMessage());
          }
-     }
+    }
+
     public void exibirListaProdutos(HashMap<Integer, Produto> mapa) {
          if (mapa.isEmpty()) {
              System.out.println("Nenhum produto cadastrado no momento.");
@@ -118,7 +118,8 @@ public class ProdutoView {
                  System.out.println(produto);
              }
          }
-     }
+    }
+
      public void exibirBuscaPorId(){
          try {
              System.out.println("----- Busca de Produto -----");
@@ -136,6 +137,7 @@ public class ProdutoView {
              LoggerService.log("ERROR", e.getMessage());
          }
      }
+
     public void exibirProdutosRemovidos() {
         try {
             System.out.println("----- Remoção de Produto -----");
@@ -157,6 +159,7 @@ public class ProdutoView {
             sc.nextLine();
         }
     }
+
     public void setController(ProdutoController controller) {
         this.controller = controller;
     }

@@ -69,7 +69,6 @@ public class PedidoController {
         return this.mapaPedidos;
     }
 
-
     public Pedido buscarPedidoEspecifico(int idBuscado) throws RegistroNaoEncontradoException {
         Pedido pedidoEncontrado = mapaPedidos.get(idBuscado);
         if(pedidoEncontrado == null) {
@@ -79,6 +78,4 @@ public class PedidoController {
         LoggerService.log("INFO", "Consulta executada com sucesso - Pedido: #" + pedidoEncontrado.getIdPedido() + " localizado.");
         return pedidoEncontrado;
     }
-
-
 }

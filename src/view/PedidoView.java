@@ -13,7 +13,6 @@ public class PedidoView {
     private Scanner sc = new Scanner(System.in);
     private PedidoController controller;
 
-
     public int lerIDPedido() {
         System.out.print("Digite o ID do pedido que deseja buscar:");
         return sc.nextInt();
@@ -21,14 +20,6 @@ public class PedidoView {
 
     public void limparBuffer() {
         sc.nextLine();
-    }
-
-    public void exibirMensagem(String msg) {
-        System.out.println(msg);
-    }
-
-    public void fecharScanner() {
-        sc.close();
     }
 
     public void exibirMenu() {
@@ -64,7 +55,6 @@ public class PedidoView {
         } while (opcao != 0);
     }
 
-
     public void exibirlistadeTodosOsPedidos() {
         Map<Integer, Pedido> mapaPedidos = controller.listarPedidos();
         if(mapaPedidos.isEmpty()) {
@@ -76,9 +66,7 @@ public class PedidoView {
         for(Pedido pedidoAtual : mapaPedidos.values()) {
             System.out.println("Pedido #" + pedidoAtual.getIdPedido() + " | Cliente: " + pedidoAtual.getCliente().getNome());
         }
-
     }
-
 
     public void exibirBuscaPedidoPorId() {
         try {
@@ -96,7 +84,6 @@ public class PedidoView {
             System.out.println("ERRO: Por favor, digite apenas números para buscar um ID.");
             limparBuffer();
         }
-
     }
 
     public void setController(PedidoController controller) {

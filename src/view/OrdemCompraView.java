@@ -33,14 +33,6 @@ public class OrdemCompraView {
         return sc.nextDouble();
     }
 
-    public void exibirMensagem(String mensagem) {
-        System.out.println(mensagem);
-    }
-
-    public void fecharScanner() {
-        sc.close();
-    }
-
     public void limparBuffer() {
         sc.nextLine();
     }

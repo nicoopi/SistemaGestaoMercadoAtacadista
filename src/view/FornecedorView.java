@@ -28,14 +28,6 @@ public class FornecedorView {
         return sc.nextLine();
     }
 
-    public void exibirMensagem(String mensagem) {
-        System.out.println(mensagem);
-    }
-
-    public void fecharScanner() {
-        sc.close();
-    }
-
     public void limparBuffer() {
         sc.nextLine();
     }
@@ -50,6 +42,7 @@ public class FornecedorView {
                 System.out.println("2 - Listar fornecedores");
                 System.out.println("3 - Buscar fornecedor por CNPJ");
                 System.out.println("4 - Remover fornecedor");
+                System.out.println("5 - Modificar fornecedor");
                 System.out.println("0 - Sair do menu de fornecedores");
                 System.out.print("Digite a opção que deseja: ");
                 option = sc.nextInt();
@@ -68,6 +61,9 @@ public class FornecedorView {
                         break;
                     case 4:
                         exibirFornecedorRemovido();
+                        break;
+                    case 5:
+                        exibirModificacaoFornecedor();
                         break;
                     case 0:
                         System.out.println("Saindo do menu de fornecedores...");
@@ -123,6 +119,25 @@ public class FornecedorView {
             controller.removerFornecedorPorCnpj(lerCnpj());
             System.out.println("Sucesso: Fornecedor removido!");
         } catch (RegistroNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+            LoggerService.log("ERROR", e.getMessage());
+        }
+    }
+
+    public void exibirModificacaoFornecedor() {
+        try {
+            System.out.println("----- Modificação de Fornecedor -----");
+            System.out.print("Digite o CNPJ atual do fornecedor que deseja modificar: ");
+            String cnpjAtual = sc.nextLine();
+
+            System.out.println("--- Digite os Novos Dados ---");
+            String novaRazaoSocial = lerRazaoSocial();
+            String novoCnpj = lerCnpj();
+            String novoTelefone = lerTelefone();
+
+            controller.modificarFornecedor(cnpjAtual, novaRazaoSocial, novoCnpj, novoTelefone);
+            System.out.println("\nSucesso: Fornecedor modificado!");
+        } catch (RegistroNaoEncontradoException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
             LoggerService.log("ERROR", e.getMessage());
         }

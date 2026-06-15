@@ -1,57 +1,33 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OrdemCompra implements Serializable {
     private Fornecedor fornecedor;
-    private List<Produto> produtos;
+    private Produto produto;
     private int quantidade;
     private double custoUnitario;
 
-
-    public OrdemCompra(Fornecedor fornecedor, int quantidade, double custoUnitario) throws IllegalArgumentException {
+    public OrdemCompra(Fornecedor fornecedor, Produto produto, int quantidade, double custoUnitario) throws IllegalArgumentException {
         if (fornecedor == null) {
             throw new IllegalArgumentException("ERRO: O fornecedor não pode ser nulo! Insira um fornecedor válido.");
         }
+        if (produto == null) {
+            throw new IllegalArgumentException("ERRO: O produto não pode ser nulo! Insira um produto válido.");
+        }
 
         this.fornecedor = fornecedor;
-        this.produtos = new ArrayList<>();
+        this.produto = produto;
         setQuantidade(quantidade);
         setCustoUnitario(custoUnitario);
-    }
-
-    public void adicionarProduto(Produto produto) throws IllegalArgumentException{
-        if (produto == null) {
-            throw new IllegalArgumentException("ERRO: O produto não pode ser nulo! Insira um produto válido.");
-        }
-        this.produtos.add(produto);
-    }
-
-    public void removerProduto(Produto produto) throws IllegalArgumentException {
-        if (produto == null) {
-            throw new IllegalArgumentException("ERRO: O produto não pode ser nulo! Insira um produto válido.");
-        }
-        boolean encontrado = false;
-        for (Produto p : produtos) {
-            if (p == produto) {
-                encontrado = true;
-                break;
-            }
-        }
-        if (!encontrado) {
-            throw new IllegalArgumentException("ERRO: Produto não encontrado!");
-        }
-        this.produtos.remove(produto);
     }
 
     public Fornecedor getFornecedor() {
         return fornecedor;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public Produto getProduto() {
+        return produto;
     }
 
     public int getQuantidade() {
@@ -69,7 +45,7 @@ public class OrdemCompra implements Serializable {
         this.quantidade = quantidade;
     }
 
-    public void setCustoUnitario(double custoUnitario)throws IllegalArgumentException{
+    public void setCustoUnitario(double custoUnitario) throws IllegalArgumentException{
         if (custoUnitario <= 0){
             throw new IllegalArgumentException("ERRO: O custo unitário deve ser maior que zero! Coloque um custo válido.");
         }
@@ -82,13 +58,10 @@ public class OrdemCompra implements Serializable {
 
     @Override
     public String toString() {
-        String ordemCompra = "Fornecedor: " + fornecedor.getRazaoSocial()
+        return "Fornecedor: " + fornecedor.getRazaoSocial()
                 + " | Quantidade: " + getQuantidade()
                 + " | Custo Unitário: R$ " + getCustoUnitario()
-                + " | Custo Total: R$ " + calcularTotal() + "\n";
-        for (Produto p : produtos) {
-            ordemCompra += p.toString() + "\n";
-        }
-        return ordemCompra;
+                + " | Custo Total: R$ " + calcularTotal() + "\n"
+                + produto.toString() + "\n";
     }
 }

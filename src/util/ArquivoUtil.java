@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 
 public class ArquivoUtil {
-    public  void salvarDados(Object dados, String nomeArquivo) {
+    public void salvarDados(Object dados, String nomeArquivo) {
         try {
             File pasta = new File("dados");
             if (!pasta.exists()) {
@@ -44,7 +44,6 @@ public class ArquivoUtil {
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("ERRO ao ler o arquivo " + nomeArquivo + ": " + e.getMessage());
         }
-
         return dadosLidos;
     }
 }

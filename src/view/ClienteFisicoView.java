@@ -18,49 +18,52 @@ public class ClienteFisicoView {
         System.out.print("Digite o nome: ");
         return sc.nextLine();
     }
+
     public String lerTelefone() {
         System.out.print("Digite o telefone: ");
         return sc.nextLine();
     }
+
     public String lerEmail() {
         System.out.print("Digite o email: ");
         return sc.nextLine();
     }
+
     public String lerDataCadastro() {
         System.out.print("Digite a data de cadastro (formato DD/MM/AAAA): ");
         return sc.nextLine();
     }
+
     public String lerCpf() {
         System.out.print("Digite o CPF: ");
         return sc.nextLine();
     }
+
     public String lerNovoNome() {
         System.out.print("Digite o novo nome: ");
         return sc.nextLine();
     }
+
     public String lerNovoTelefone() {
         System.out.print("Digite o novo telefone: ");
         return sc.nextLine();
     }
+
     public String lerNovoEmail() {
         System.out.print("Digite o novo email: ");
         return sc.nextLine();
     }
+
     public String lerNovaDataCadastro() {
         System.out.print("Digite a data de cadastro da atualização (formato DD/MM/AAAA): ");
         return sc.nextLine();
     }
+
     public String lerCpfCadastroAlteracao() {
         System.out.print("Digite o CPF do cadastro que deseja alterar: ");
         return sc.nextLine();
     }
 
-    public void exibirMensagem(String mensagem) {
-        System.out.println(mensagem);
-    }
-    public void fecharScanner() {
-        sc.close();
-    }
     public void limparBuffer() {
         sc.nextLine();
     }

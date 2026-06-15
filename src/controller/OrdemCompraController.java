@@ -33,8 +33,7 @@ public class OrdemCompraController {
         Fornecedor fornecedor = fornecedorController.buscarFornecedorPorCnpj(cnpjFornecedor);
         Produto produto = produtoController.buscarProdutoPorId(idProduto);
 
-        OrdemCompra novaOrdem = new OrdemCompra(fornecedor, quantidade, custoUnitario);
-        novaOrdem.adicionarProduto(produto);
+        OrdemCompra novaOrdem = new OrdemCompra(fornecedor, produto, quantidade, custoUnitario);
 
         listaOrdensCompra.add(novaOrdem);
 

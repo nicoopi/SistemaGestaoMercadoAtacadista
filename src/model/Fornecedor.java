@@ -14,7 +14,6 @@ public class Fornecedor implements Serializable {
 
     }
 
-
     public String getRazaoSocial() {
         return razaoSocial;
     }
@@ -27,14 +26,12 @@ public class Fornecedor implements Serializable {
         return telefone;
     }
 
-
     public void setRazaoSocial(String razaoSocial) throws IllegalArgumentException{
         if (razaoSocial == null || razaoSocial.isBlank()){
             throw new IllegalArgumentException("ERRO: A razão social não pode ser NULA ou VAZIA");
         }
         this.razaoSocial = razaoSocial;
     }
-
 
     public void setCnpj(String cnpj) throws IllegalArgumentException{
         if(cnpj == null || cnpj.isBlank()) {
@@ -48,7 +45,6 @@ public class Fornecedor implements Serializable {
 
         this.cnpj = cnpj;
     }
-
 
     public void setTelefone(String telefone) throws IllegalArgumentException{
         if(telefone == null || telefone.isBlank()) {
@@ -65,8 +61,4 @@ public class Fornecedor implements Serializable {
     public String toString() {
         return "Razão Social: " + getRazaoSocial() + " | CNPJ: " + getCnpj() + " | Telefone: " + getTelefone();
     }
-
-
 }
-
-
