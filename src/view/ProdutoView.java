@@ -10,7 +10,6 @@ import java.util.InputMismatchException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-
 public class ProdutoView {
      private Scanner sc = new Scanner(System.in);
      private ProdutoController controller;

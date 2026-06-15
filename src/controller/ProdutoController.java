@@ -2,11 +2,8 @@ package controller;
 
 import exceptions.RegistroNaoEncontradoException;
 import model.Produto;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import util.ArquivoUtil;
 import util.LoggerService;

@@ -24,6 +24,7 @@ public class ItemPedido implements Serializable {
     public int getQuantidadePedida() {
         return quantidadePedida;
     }
+
     public double getPrecoUnitario() {
         return precoUnitario;
     }

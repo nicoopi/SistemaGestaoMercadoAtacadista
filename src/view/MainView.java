@@ -1,7 +1,6 @@
 package view;
 
 import controller.*;
-import model.Cliente;
 import util.LoggerService;
 
 import java.util.InputMismatchException;

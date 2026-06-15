@@ -22,10 +22,6 @@ public class OrdemCompra implements Serializable {
         setCustoUnitario(custoUnitario);
     }
 
-    public Fornecedor getFornecedor() {
-        return fornecedor;
-    }
-
     public Produto getProduto() {
         return produto;
     }

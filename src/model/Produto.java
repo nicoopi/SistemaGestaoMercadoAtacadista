@@ -1,5 +1,7 @@
 package model;
+
 import java.io.Serializable;
+
 public class Produto implements Serializable{
     private String nomeProduto;
     private double precoBase;

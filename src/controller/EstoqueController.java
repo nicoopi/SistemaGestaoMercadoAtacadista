@@ -86,7 +86,7 @@ public class EstoqueController {
         return valorTotal;
     }
 
-    public int adicionarQuantidadeEmEstoque(int id, int quantidadeAdicional) throws RegistroNaoEncontradoException {
+    public void adicionarQuantidadeEmEstoque(int id, int quantidadeAdicional) throws RegistroNaoEncontradoException {
         Estoque estoqueEncontrado = mapaEstoque.get(id);
 
         if (estoqueEncontrado == null) {
@@ -97,10 +97,9 @@ public class EstoqueController {
 
         arquivoUtil.salvarDados(this.mapaEstoque, "estoque.dat");
         LoggerService.log("INFO", "Nova quantidade em estoque cadastrada!");
-        return novaQuantidade;
     }
 
-    public int removerQuantidadeDeEstoque(int id, int quantidadeRemovida) throws RegistroNaoEncontradoException {
+    public void removerQuantidadeDeEstoque(int id, int quantidadeRemovida) throws RegistroNaoEncontradoException {
         Estoque estoqueEncontrado = mapaEstoque.get(id);
 
         if (estoqueEncontrado == null) {
@@ -113,7 +112,6 @@ public class EstoqueController {
         estoqueEncontrado.setQuantidadeAtual(novaQuantidade);
         arquivoUtil.salvarDados(this.mapaEstoque, "estoque.dat");
         LoggerService.log("INFO", "Nova quantidade em estoque cadastraa");
-        return novaQuantidade;
     }
 
     public boolean existeProdutoNoEstoque(int idProduto){

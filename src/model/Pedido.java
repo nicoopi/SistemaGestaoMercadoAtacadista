@@ -21,7 +21,7 @@ public class Pedido implements Serializable {
             throw new IllegalArgumentException("ERRO: O cliente não pode ser nulo! Insira um cliente válido.");
         }
 
-        this.idPedido = idPedido;
+        setIdPedido(idPedido);
         this.cliente = cliente;
         this.listaItens = new ArrayList<>();
         setDataPedido(dataPedido);
@@ -29,10 +29,6 @@ public class Pedido implements Serializable {
 
     public int getIdPedido() {
         return idPedido;
-    }
-    
-    public List<ItemPedido> getListaItens() {
-        return listaItens;
     }
 
     public Cliente getCliente() {
