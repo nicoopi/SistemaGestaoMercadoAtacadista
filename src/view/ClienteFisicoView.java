@@ -35,7 +35,7 @@ public class ClienteFisicoView {
     }
 
     public String lerCpf() {
-        System.out.print("Digite o CPF: ");
+        System.out.print("Digite o CPF (somente números): ");
         return sc.nextLine();
     }
 
@@ -60,7 +60,7 @@ public class ClienteFisicoView {
     }
 
     public String lerCpfCadastroAlteracao() {
-        System.out.print("Digite o CPF do cadastro que deseja alterar: ");
+        System.out.print("Digite o CPF do cadastro que deseja alterar (somente números): ");
         return sc.nextLine();
     }
 

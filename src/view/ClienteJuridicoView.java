@@ -35,7 +35,7 @@ public class ClienteJuridicoView {
     }
 
     public String lerCnpj() {
-        System.out.print("Digite o CNPJ: ");
+        System.out.print("Digite o CNPJ (somente números): ");
         return sc.nextLine();
     }
 
@@ -60,7 +60,7 @@ public class ClienteJuridicoView {
     }
 
     public String lerCnpjCadastroAlteracao() {
-        System.out.print("Digite o CNPJ do cadastro que deseja alterar: ");
+        System.out.print("Digite o CNPJ do cadastro que deseja alterar (somente números): ");
         return sc.nextLine();
     }
 
@@ -75,7 +75,7 @@ public class ClienteJuridicoView {
             try {
                 System.out.println("\n===== MENU DE CLIENTE JURÍDICO =====");
                 System.out.println("1 - Cadastrar cliente jurídico");
-                System.out.println("2 - Listar clientes jurídico");
+                System.out.println("2 - Listar clientes jurídicos");
                 System.out.println("3 - Buscar cliente por cnpj");
                 System.out.println("4 - Remover cliente jurídico");
                 System.out.println("5 - Alterar cliente jurídico");
