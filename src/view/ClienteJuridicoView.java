@@ -35,7 +35,7 @@ public class ClienteJuridicoView {
     }
 
     public String lerCnpj() {
-        System.out.print("Digite o CNPJ (somente números): ");
+        System.out.print("Digite o CNPJ (sem pontuação): ");
         return sc.nextLine();
     }
 
@@ -60,7 +60,7 @@ public class ClienteJuridicoView {
     }
 
     public String lerCnpjCadastroAlteracao() {
-        System.out.print("Digite o CNPJ do cadastro que deseja alterar (somente números): ");
+        System.out.print("Digite o CNPJ do cadastro que deseja alterar (sem pontuação): ");
         return sc.nextLine();
     }
 
